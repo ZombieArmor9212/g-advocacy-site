@@ -66,8 +66,9 @@
         }
 
         /* Staggered animation delays for a more organic feel */
-        .member-card:nth-child(2) { animation-delay: 0.5s; }
-        .member-card:nth-child(3) { animation-delay: 1.2s; }
+        .member-card:nth-child(1) { animation-delay: 0s; }
+        .member-card:nth-child(2) { animation-delay: 1.5s; }
+        .member-card:nth-child(3) { animation-delay: 3s; }
 
         .member-card:hover {
             border-color: var(--accent);
@@ -159,39 +160,37 @@
         
         <div class="member-card" onclick="openCard(this)">
             <div class="avatar">👨‍💼</div> <h3>Pangalan 1</h3> <p style="color:var(--accent)">Project Leader</p> <div class="details">
-                Write a short description about this person here. 
-                Focus on their contribution to the advocacy.
+                Short bio for Member 1 goes here. Explain their role in the advocacy.
             </div>
             <div class="close-hint">Click outside to close</div>
         </div>
+
         <div class="member-card" onclick="openCard(this)">
-            <div class="avatar">👩‍💻</div> <h3>Pangalan 2</h3> <p style="color:var(--accent)">Research Head</p> <div class="details">
-                Write a short description about this person here. 
-                Talk about their expertise and research work.
+            <div class="avatar">👩‍💻</div> <h3>Pangalan 2</h3> <p style="color:var(--accent)">Researcher</p> <div class="details">
+                Short bio for Member 2 goes here. Mention what they researched.
             </div>
             <div class="close-hint">Click outside to close</div>
         </div>
+
         <div class="member-card" onclick="openCard(this)">
-            <div class="avatar">📢</div> <h3>Pangalan 3</h3> <p style="color:var(--accent)">Advocacy Lead</p> <div class="details">
-                Write a short description about this person here. 
-                Focus on their role in communication and social media.
+            <div class="avatar">📢</div> <h3>Pangalan 3</h3> <p style="color:var(--accent)">Communcations</p> <div class="details">
+                Short bio for Member 3 goes here. Explain how they share the message.
             </div>
             <div class="close-hint">Click outside to close</div>
         </div>
-        </div>
+
+    </div>
 
     <script>
         const overlay = document.getElementById('overlay');
 
         function openCard(card) {
-            // Only allow opening if another card isn't already active
             if(!card.classList.contains('active')) {
                 card.classList.add('active');
                 overlay.classList.add('show');
             }
         }
 
-        // Closes the card when clicking on the dark background
         overlay.onclick = () => {
             const activeCard = document.querySelector('.member-card.active');
             if(activeCard) {
