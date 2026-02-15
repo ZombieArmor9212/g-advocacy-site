@@ -34,19 +34,19 @@
             margin-top: 60px; font-weight: 800; font-size: 2.8rem;
             color: var(--accent); font-family: 'Playfair Display', serif;
             font-style: italic; text-align: center;
-            /* Header Startup Animation */
             opacity: 0;
-            animation: slideDownFade 1s ease-out forwards;
+            animation: slideDownFade 1s ease-out 0.2s forwards;
         }
 
         .container {
             display: flex; flex-wrap: wrap; justify-content: center;
             gap: 40px; padding: 50px 20px;
+            width: 100%;
         }
 
         /* --- THE CARD --- */
         .card {
-            background: rgba(25, 25, 22, 0.8);
+            background: rgba(25, 25, 22, 0.85);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(212, 175, 55, 0.1);
             border-radius: 24px;
@@ -56,38 +56,41 @@
             cursor: pointer;
             position: relative;
             
-            /* Startup Animation Properties */
+            /* Visibility Fix: Start with opacity 0 then animate to 1 */
             opacity: 0;
-            transform: translateY(50px);
             
-            /* Hover & Interaction Transition */
-            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), 
-                        background 0.4s ease, 
-                        box-shadow 0.4s ease, 
-                        opacity 0.4s ease;
+            /* Smoother In-Out Transition for Opening/Closing */
+            transition: 
+                transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                opacity 0.4s ease, 
+                box-shadow 0.4s ease, 
+                background 0.3s ease,
+                left 0.5s ease, top 0.5s ease;
         }
 
-        /* STAGGERED STARTUP ANIMATIONS */
-        /* Card 1 starts at 0.3s, Card 2 at 0.5s, etc. */
-        .card:nth-child(1) { animation: cardStartup 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s forwards; }
-        .card:nth-child(2) { animation: cardStartup 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s forwards; }
-        .card:nth-child(3) { animation: cardStartup 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.7s forwards; }
+        /* STAGGERED STARTUP - Separate animation to avoid conflict with transitions */
+        .card:nth-child(1) { animation: startupReveal 0.8s ease-out 0.4s forwards; }
+        .card:nth-child(2) { animation: startupReveal 0.8s ease-out 0.6s forwards; }
+        .card:nth-child(3) { animation: startupReveal 0.8s ease-out 0.8s forwards; }
 
         .card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-12px);
             border-color: var(--accent);
-            background: rgba(40, 35, 25, 0.9);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
         }
 
-        /* --- ACTIVE MODAL STATE --- */
+        /* --- THE "IN-OUT" MODAL TRANSITION --- */
         .card.active {
-            position: fixed; top: 50%; left: 50%;
+            position: fixed;
+            top: 50% !important;
+            left: 50% !important;
             transform: translate(-50%, -50%) scale(1.1) !important;
-            width: 380px; z-index: 1000;
-            background: #151512;
+            width: 380px;
+            z-index: 1000;
+            background: #1a1a17;
             border: 2px solid var(--accent);
-            box-shadow: 0 40px 100px rgba(0,0,0,0.9);
-            animation: none; /* Disable startup animation when active */
+            box-shadow: 0 50px 100px rgba(0,0,0,0.9);
+            cursor: default;
         }
 
         .avatar-glow {
@@ -110,35 +113,37 @@
 
         .active .hidden-info {
             max-height: 300px; opacity: 1; margin-top: 25px; padding-top: 25px;
-            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
         }
 
+        /* --- OVERLAY --- */
         #overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); backdrop-filter: blur(8px);
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
             opacity: 0; visibility: hidden;
-            transition: 0.5s ease;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
             z-index: 999;
         }
 
         #overlay.show { opacity: 1; visibility: visible; }
 
         /* --- KEYFRAMES --- */
-        @keyframes cardStartup {
-            from { opacity: 0; transform: translateY(60px); }
+        @keyframes startupReveal {
+            from { opacity: 0; transform: translateY(40px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes slideDownFade {
-            from { opacity: 0; transform: translateY(-30px); }
+            from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .close-btn { 
             position: absolute; top: 15px; right: 20px; 
-            font-size: 1.8rem; color: var(--accent); opacity: 0; pointer-events: none;
+            font-size: 1.8rem; color: var(--accent); opacity: 0; cursor: pointer;
+            transition: 0.3s;
         }
-        .active .close-btn { opacity: 1; pointer-events: auto; }
+        .active .close-btn { opacity: 1; }
     </style>
 </head>
 <body>
@@ -196,14 +201,23 @@
             }
         }
 
-        overlay.onclick = () => {
+        // Close logic for clicking overlay or close button
+        function closeAll() {
             const activeCard = document.querySelector('.card.active');
             if (activeCard) {
                 activeCard.classList.remove('active');
                 overlay.classList.remove('show');
                 document.body.style.overflow = 'auto';
             }
-        };
+        }
+
+        overlay.onclick = closeAll;
+        document.querySelectorAll('.close-btn').forEach(btn => {
+            btn.onclick = (e) => {
+                e.stopPropagation(); // Prevent re-opening
+                closeAll();
+            }
+        });
     </script>
 </body>
 </html>
