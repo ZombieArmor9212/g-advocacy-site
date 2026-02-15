@@ -10,8 +10,9 @@
             --bg: #0a0a08;
             --glass: rgba(20, 20, 18, 0.85);
             --glass-border: rgba(212, 175, 55, 0.2);
-            --red-tint: rgba(255, 99, 71, 0.1);
-            --green-tint: rgba(144, 238, 144, 0.1);
+            --red-tint: rgba(255, 99, 71, 0.05);
+            --green-tint: rgba(144, 238, 144, 0.05);
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
         body, html {
@@ -19,9 +20,9 @@
             font-family: 'Montserrat', sans-serif;
             background-color: var(--bg);
             color: #fffaf0;
+            overflow-x: hidden;
         }
 
-        /* BACKDROP: Using your new image with a heavy blur for focus */
         body::before {
             content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
@@ -38,7 +39,7 @@
         .header-section { text-align: center; margin-bottom: 50px; }
         
         .header-section h1 {
-            font-family: 'Playfair Display', serif; font-size: 2.8rem; font-style: italic;
+            font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 2.8rem); font-style: italic;
             margin: 0; background: linear-gradient(to bottom, #fffaf0, var(--accent));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
@@ -48,45 +49,74 @@
             color: var(--accent); margin-top: 10px; font-weight: 700;
         }
 
-        /* PROBLEM & SOLUTION GRID */
+        /* --- ENHANCED ISSUE CARDS --- */
         .issue-card {
-            background: var(--glass); backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border); border-radius: 32px;
-            padding: 40px; margin-bottom: 30px;
-            opacity: 0; transform: translateY(20px);
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
+            padding: 40px;
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(30px);
             animation: slideUp 0.8s ease-out forwards;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
         }
 
-        .issue-card:nth-child(2) { animation-delay: 0.2s; }
+        .issue-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+
+        .issue-card::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at top right, rgba(212, 175, 55, 0.05), transparent);
+            pointer-events: none;
+        }
 
         .badge {
             display: inline-block; padding: 6px 15px; border-radius: 50px;
             font-size: 0.65rem; font-weight: 800; text-transform: uppercase;
             letter-spacing: 1px; margin-bottom: 15px;
+            transition: var(--transition);
         }
 
-        .badge-problem { background: var(--red-tint); color: #ff6347; border: 1px solid rgba(255, 99, 71, 0.3); }
-        .badge-solution { background: var(--green-tint); color: #90ee90; border: 1px solid rgba(144, 238, 144, 0.3); }
+        .badge-problem { background: rgba(255, 99, 71, 0.1); color: #ff6347; border: 1px solid rgba(255, 99, 71, 0.3); }
+        .badge-solution { background: rgba(144, 238, 144, 0.1); color: #90ee90; border: 1px solid rgba(144, 238, 144, 0.3); }
 
         h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin: 10px 0; }
         
         .content-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 20px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 30px;
         }
+
+        .sub-box {
+            padding: 20px; border-radius: 20px; transition: var(--transition);
+            border: 1px solid transparent;
+        }
+
+        /* Hover logic for sub-boxes */
+        .sub-box:first-child:hover { background: var(--red-tint); border-color: rgba(255, 99, 71, 0.2); }
+        .sub-box:last-child:hover { background: var(--green-tint); border-color: rgba(144, 238, 144, 0.2); }
 
         .sub-box h3 {
             font-size: 0.7rem; letter-spacing: 1.5px; text-transform: uppercase;
-            color: var(--accent); margin-bottom: 10px;
+            color: var(--accent); margin-bottom: 12px;
         }
 
-        .sub-box p { font-size: 0.85rem; line-height: 1.7; color: #c9c2b5; margin: 0; }
+        .sub-box p { font-size: 0.85rem; line-height: 1.7; color: #b5b0a3; margin: 0; transition: color 0.3s; }
+        .sub-box:hover p { color: #fffaf0; }
 
         @keyframes slideUp {
             to { opacity: 1; transform: translateY(0); }
         }
 
         @media (max-width: 700px) {
-            .content-grid { grid-template-columns: 1fr; }
+            .content-grid { grid-template-columns: 1fr; gap: 20px; }
+            .issue-card { padding: 30px 20px; }
         }
     </style>
 </head>
@@ -98,34 +128,34 @@
             <h1>Suliranin at Solusyon</h1>
         </div>
 
-        <div class="issue-card">
+        <div class="issue-card" style="animation-delay: 0.1s;">
             <div class="badge badge-problem">Isyu Blg. 1</div>
             <h2>Krisis sa Integridad: Korapsyon</h2>
             <div class="content-grid">
                 <div class="sub-box">
                     <h3>Epekto sa Mamamayan</h3>
-                    <p>Nanakaw ang pondo na para sana sa kalusugan at edukasyon. Nawawalan ng tiwala ang taumbayan sa gobyerno, na nagiging sanhi ng pagbagal ng pag-unlad ng bansa.</p>
+                    <p>Nanakaw ang pondo na para sana sa kalusugan at edukasyon. Nawawalan ng tiwala ang taumbayan sa gobyerno, na nagiging sanhi ng pagbagal ng pag-unlad.</p>
                 </div>
                 <div class="sub-box">
                     <h3>Aming Solusyon</h3>
-                    <div class="badge badge-solution">Transparency</div>
-                    <p>Pagpapatupad ng "Open Data Policy" kung saan ang bawat sentimo ng buwis ay makikita online. Palalakasin ang pananagutan sa pamamagitan ng digital auditing.</p>
+                    <div class="badge badge-solution" style="margin-bottom: 10px;">Transparency</div>
+                    <p>Pagpapatupad ng "Open Data Policy" at digital auditing upang matiyak na bawat sentimo ay napupunta sa serbisyo-publiko.</p>
                 </div>
             </div>
         </div>
 
-        <div class="issue-card">
+        <div class="issue-card" style="animation-delay: 0.3s;">
             <div class="badge badge-problem">Isyu Blg. 2</div>
             <h2>Siklo ng Kahirapan</h2>
             <div class="content-grid">
                 <div class="sub-box">
                     <h3>Epekto sa Mamamayan</h3>
-                    <p>Maraming pamilya ang hindi nakakatugon sa pangunahing pangangailangan. Nagiging limitado ang pagkakataon para sa kabataan na makapagtapos at makahanap ng maayos na trabaho.</p>
+                    <p>Maraming pamilya ang hindi nakakatugon sa gutom. Nagiging limitado ang pagkakataon para sa kabataan na makapagtapos at umasenso.</p>
                 </div>
                 <div class="sub-box">
                     <h3>Aming Solusyon</h3>
-                    <div class="badge badge-solution">Empowerment</div>
-                    <p>Paglikha ng mga trabahong lokal sa pamamagitan ng suporta sa maliliit na negosyo (MSMEs) at libreng skill-training na akma sa makabagong industriya.</p>
+                    <div class="badge badge-solution" style="margin-bottom: 10px;">Empowerment</div>
+                    <p>Pagsuporta sa MSMEs at libreng skill-training na akma sa makabagong industriya upang makabuo ng trabahong marangal para sa lahat.</p>
                 </div>
             </div>
         </div>
