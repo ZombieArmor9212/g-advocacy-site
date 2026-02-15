@@ -12,71 +12,54 @@
             overflow: hidden;
         }
 
-        /* FILIPINO WEAVE BACKGROUND */
+        /* FILIPINO ABACA WEAVE BACKGROUND */
         body::before {
             content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: 
-                linear-gradient(rgba(13, 13, 11, 0.9), rgba(13, 13, 11, 0.9)),
+                linear-gradient(rgba(13, 13, 11, 0.85), rgba(13, 13, 11, 0.85)),
                 repeating-linear-gradient(45deg, #1a150e 0, #1a150e 1px, transparent 0, transparent 50%),
                 repeating-linear-gradient(-45deg, #1a150e 0, #1a150e 1px, transparent 0, transparent 50%);
-            background-size: 15px 15px; /* Looks like woven Abaca */
+            background-size: 15px 15px;
             z-index: -1;
         }
 
         .hero-container {
             width: 100%; height: 100vh;
             display: flex; justify-content: center; align-items: center; text-align: center;
-            background: radial-gradient(circle at center, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
         }
 
         .glass-card {
-            padding: 4rem 3rem;
+            padding: 4rem;
             background: rgba(255, 255, 255, 0.01);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(212, 175, 55, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border-radius: 40px;
             max-width: 800px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            /* In-Out Transition for Page Load */
+            animation: fadeInOut 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
         h1 {
-            font-size: clamp(2.2rem, 6vw, 3.5rem); 
+            font-size: clamp(2.2rem, 6vw, 3.8rem); 
             font-weight: 900;
             margin: 0;
             color: #fffaf0;
-            letter-spacing: -1px;
-            line-height: 1;
+            letter-spacing: -1.5px;
+            line-height: 1.1;
         }
 
         .subtitle {
             margin-top: 1.5rem;
-            font-family: 'Playfair Display', serif; /* Stylish font */
-            font-size: 1.4rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
             color: #d4af37;
             font-style: italic;
+            letter-spacing: 1px;
         }
 
-        .nav-buttons {
-            margin-top: 3rem;
-            display: flex; gap: 20px; justify-content: center;
-        }
-
-        .btn {
-            padding: 15px 35px; border-radius: 50px;
-            text-decoration: none; font-weight: 700;
-            transition: 0.4s;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-        }
-
-        .btn-solid { background: #d4af37; color: #1a1100; }
-        .btn-outline { border: 1.5px solid #d4af37; color: #d4af37; }
-
-        .btn:hover { 
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        @keyframes fadeInOut {
+            0% { transform: scale(0.9); opacity: 0; filter: blur(10px); }
+            100% { transform: scale(1); opacity: 1; filter: blur(0); }
         }
     </style>
 </head>
@@ -85,10 +68,6 @@
         <div class="glass-card">
             <h1>Tapat na Pamumuno,<br>Pantay na Pagkakataon</h1>
             <p class="subtitle">Adhikaing Pilipino</p>
-            <div class="nav-buttons">
-                <a href="/about" target="_parent" class="btn btn-solid">Tungkol sa Amin</a>
-                <a href="/team" target="_parent" class="btn btn-outline">Ang Grupo</a>
-            </div>
         </div>
     </div>
 </body>
