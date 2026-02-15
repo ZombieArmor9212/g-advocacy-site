@@ -19,19 +19,21 @@
         }
 
         /* --- THE BACKGROUND IMAGE FIX --- */
-        .site-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: #0d0d0b; /* Fallback if image fails */
+       .site-bg {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            /* Using a bright color to test visibility */
+            background-color: #ffff0b !important; 
             background-image: 
                 linear-gradient(rgba(13, 13, 11, 0.8), rgba(13, 13, 11, 0.92)),
-                url('https://zombiearmor9212.github.io/g-advocacy-site/images/g-site-bg-1.jpg');
-            background-size: cover;
-            background-position: center;
-            z-index: -2;
+                url('https://zombiearmor9212.github.io/g-advocacy-site/images/g-site-bg-1.jpg') !important;
+            background-size: cover !important;
+            background-position: center !important;
+            z-index: -2 !important;
+            display: block !important;
         }
 
         /* --- ABACA WEAVE OVERLAY --- */
