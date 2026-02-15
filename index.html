@@ -5,88 +5,89 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        /* 1. RESET & BASE */
+        * { box-sizing: border-box; }
+
         html, body {
             margin: 0;
             padding: 0;
             height: 100vh;
             width: 100vw;
             font-family: 'Inter', sans-serif;
-            background-color: #0b0b0f; /* Deep base */
-            overflow: hidden;
+            background-color: #0b0b0f;
+            overflow: hidden; /* Stops double scrollbars */
         }
 
-        /* 2. THE BACKGROUND (Hybrid Image + Gradient) */
+        /* THE BACKGROUND: A "Hyprland" style CSS Mesh Gradient */
         .hero-container {
             width: 100%;
-            height: 100%;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             text-align: center;
-            position: relative;
             
-            /* Choice: Dark Professional Cityscape */
+            /* Mathematical gradient - No image files needed = No black screen */
+            background-color: #0b0b0f;
             background-image: 
-                linear-gradient(rgba(11, 11, 15, 0.6), rgba(11, 11, 15, 0.8)), 
-                url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?q=80&w=2044&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
+                radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+                radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
+                radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
         }
 
-        /* 3. GNOME-STYLE GLASS CARD */
+        /* GLASS CARD: The Gnome Aesthetic */
         .glass-card {
-            padding: 3.5rem 2rem;
-            background: rgba(255, 255, 255, 0.03); /* Semi-transparent */
-            backdrop-filter: blur(20px); /* The GNOME look */
-            -webkit-backdrop-filter: blur(20px);
+            padding: clamp(2rem, 8vw, 4rem);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 32px;
-            max-width: 700px;
-            width: 90%;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            border-radius: clamp(20px, 5vw, 40px);
+            max-width: 900px;
+            width: 85%;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
             
-            /* Hyprland pop-in animation */
-            animation: hyprPop 0.8s cubic-bezier(0.15, 0.85, 0.3, 1.1) forwards;
+            /* Snappy Hyprland Entrance */
+            animation: hyprPop 0.8s cubic-bezier(0.1, 0.9, 0.2, 1.05) forwards;
         }
 
         @keyframes hyprPop {
-            0% { transform: scale(0.6) translateY(30px); opacity: 0; }
+            0% { transform: scale(0.8) translateY(40px); opacity: 0; }
             100% { transform: scale(1) translateY(0); opacity: 1; }
         }
 
-        /* 4. TYPOGRAPHY */
         h1 {
-            font-size: clamp(2rem, 8vw, 3.5rem);
+            font-size: clamp(2rem, 7vw, 4rem);
             font-weight: 900;
             margin: 0;
-            color: white;
+            color: #ffffff;
             line-height: 1.1;
-            letter-spacing: -0.04em;
+            letter-spacing: -0.05em;
         }
 
         .subtitle {
             margin-top: 1.5rem;
-            font-size: 1.15rem;
-            color: rgba(255, 255, 255, 0.7);
-            max-width: 500px;
+            font-size: clamp(1rem, 2vw, 1.4rem);
+            color: rgba(255, 255, 255, 0.6);
+            max-width: 600px;
             margin-left: auto;
             margin-right: auto;
+            font-weight: 400;
         }
 
-        /* 5. BUTTONS */
         .nav-buttons {
-            margin-top: 3rem;
+            margin-top: 3.5rem;
             display: flex;
-            gap: 15px;
+            gap: 20px;
             justify-content: center;
+            flex-wrap: wrap;
         }
 
         .btn {
-            padding: 14px 28px;
-            border-radius: 14px;
+            padding: 16px 36px;
+            border-radius: 16px;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 1.1rem;
             transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -96,18 +97,19 @@
         }
 
         .btn-solid:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(255, 255, 255, 0.2);
         }
 
         .btn-outline {
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             color: #ffffff;
         }
 
         .btn-outline:hover {
             background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-3px);
+            transform: translateY(-5px);
+            border-color: #ffffff;
         }
     </style>
 </head>
@@ -116,11 +118,11 @@
 <div class="hero-container">
     <div class="glass-card">
         <h1>Tapat na Pamumuno,<br>Pantay na Pagkakataon</h1>
-        <p class="subtitle">Isang adbokasiya para sa paglalaban ng korapsyon sa bansa..</p>
+        <p class="subtitle">Empowering Filipino communities through transparency, integrity, and social equity.</p>
         
         <div class="nav-buttons">
             <a href="/vision" target="_parent" class="btn btn-solid">Our Vision</a>
-            <a href="/join" target="_parent" class="btn btn-outline">Join Us</a>
+            <a href="/join" target="_parent" class="btn btn-outline">Join the Movement</a>
         </div>
     </div>
 </div>
