@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: #0b0b0f;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        h1 { font-weight: 800; margin-bottom: 40px; letter-spacing: -1px; }
+
+        /* The Grid */
+        .team-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            max-width: 1000px;
+        }
+
+        /* Floating Member Card */
+        .member-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 20px;
+            width: 200px;
+            text-align: center;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Floating effect - slightly offset for each card in real use */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .member-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.3);
+            animation-play-state: paused;
+        }
+
+        .member-card.active {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1.5);
+            z-index: 100;
+            width: 300px;
+            background: rgba(30, 30, 40, 0.95);
+            animation: none;
+            box-shadow: 0 0 100px rgba(0,0,0,0.8);
+        }
+
+        .details {
+            display: none;
+            margin-top: 15px;
+            font-size: 0.8rem;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+
+        .active .details { display: block; }
+
+        /* Overlay background when a card is active */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 99;
+        }
+        .overlay.show { display: block; }
+
+        .back-btn {
+            margin-top: 30px;
+            color: #aaa;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Ang Aming Team</h1>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="team-grid">
+        <div class="member-card" onclick="toggleCard(this)">
+            <div style="font-size: 3rem;">👤</div>
+            <h3>Member Name</h3>
+            <p>Leader</p>
+            <div class="details">
+                Focused on ensuring transparency and organizing community outreach programs.
+            </div>
+        </div>
+
+        <div class="member-card" onclick="toggleCard(this)">
+            <div style="font-size: 3rem;">👤</div>
+            <h3>Member Name</h3>
+            <p>Researcher</p>
+            <div class="details">
+                Handles data gathering regarding local governance and policy impact.
+            </div>
+        </div>
+    </div>
+
+    <a href="/" target="_parent" class="back-btn">← Back to Home</a>
+
+    <script>
+        const overlay = document.getElementById('overlay');
+
+        function toggleCard(card) {
+            const isActive = card.classList.contains('active');
+            
+            // Close any open cards
+            document.querySelectorAll('.member-card').forEach(c => c.classList.remove('active'));
+            overlay.classList.remove('show');
+
+            if (!isActive) {
+                card.classList.add('active');
+                overlay.classList.add('show');
+            }
+        }
+
+        overlay.onclick = () => {
+            document.querySelectorAll('.member-card').forEach(c => c.classList.remove('active'));
+            overlay.classList.remove('show');
+        };
+    </script>
+</body>
+</html>
