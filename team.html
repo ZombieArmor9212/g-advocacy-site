@@ -3,124 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --accent: #d4af37; /* Philippine Gold */
+            --accent: #d4af37;
             --bg: #0d0d0b;
-            --card-bg: rgba(255, 250, 240, 0.03);
-            --card-active: #1a1814; /* Deep Rosewood */
-            --border: rgba(212, 175, 55, 0.15);
         }
-
-        * { box-sizing: border-box; }
 
         body {
             margin: 0; padding: 0;
             background: var(--bg);
-            color: #fffaf0; font-family: 'Inter', sans-serif;
+            color: #fffaf0; font-family: 'Montserrat', sans-serif;
             display: flex; flex-direction: column; align-items: center;
-            min-height: 100vh; overflow-x: hidden;
+            min-height: 100vh;
         }
 
-        /* BANIG TEXTURE MESH */
+        /* TEXTURED FILIPINO BACKGROUND */
         body::before {
             content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: 
-                linear-gradient(90deg, rgba(212,175,55,0.03) 1px, transparent 1px),
-                linear-gradient(rgba(212,175,55,0.03) 1px, transparent 1px);
-            background-size: 30px 30px; /* Subtle Banig Grid */
+            background-image: 
+                linear-gradient(30deg, #161614 12%, transparent 12.5%, transparent 87%, #161614 87.5%, #161614),
+                linear-gradient(150deg, #161614 12%, transparent 12.5%, transparent 87%, #161614 87.5%, #161614),
+                linear-gradient(30deg, #161614 12%, transparent 12.5%, transparent 87%, #161614 87.5%, #161614),
+                linear-gradient(150deg, #161614 12%, transparent 12.5%, transparent 87%, #161614 87.5%, #161614),
+                linear-gradient(60deg, #1a1a18 25%, transparent 25.5%, transparent 75%, #1a1a18 75%, #1a1a18),
+                linear-gradient(60deg, #1a1a18 25%, transparent 25.5%, transparent 75%, #1a1a18 75%, #1a1a18);
+            background-size: 40px 70px; /* Subtle Banig effect */
             z-index: -1;
+            opacity: 0.5;
         }
 
         h1 {
-            margin-top: 60px; font-weight: 800; font-size: clamp(2rem, 5vw, 2.8rem);
-            letter-spacing: -1px; text-align: center;
-            color: var(--accent);
-            text-transform: lowercase; /* Modern Filipino branding style */
-            font-variant: small-caps;
+            margin-top: 60px; font-weight: 800; font-size: 3rem;
+            color: var(--accent); font-family: 'Playfair Display', serif;
+            font-style: italic; text-align: center;
         }
 
         .container {
             display: flex; flex-wrap: wrap; justify-content: center;
-            gap: 30px; padding: 50px 20px; max-width: 1200px;
+            gap: 35px; padding: 50px 20px; max-width: 1200px;
         }
 
         .card {
-            background: var(--card-bg);
-            backdrop-filter: blur(15px);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 40px 20px;
-            width: 260px;
+            background: rgba(20, 20, 18, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 20px;
+            padding: 45px 25px;
+            width: 280px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-12px); }
+            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
         }
 
         .card:hover {
             border-color: var(--accent);
-            background: rgba(212, 175, 55, 0.05);
-            transform: translateY(-8px);
+            transform: translateY(-15px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.6);
         }
 
-        .card.active {
-            position: fixed; top: 50%; left: 50%;
-            transform: translate(-50%, -50%) scale(1.05);
-            width: 400px; z-index: 1000;
-            background: var(--card-active);
-            border: 2px solid var(--accent);
-            box-shadow: 0 40px 80px rgba(0,0,0,0.8);
-            animation: none;
-        }
-
-        /* PHILIPPINE SUN AVATAR STYLE */
-        .avatar-box {
-            width: 100px; height: 100px;
-            background: radial-gradient(#d4af3720, transparent);
-            border: 1.5px solid var(--accent);
+        /* SUN-INSPIRED AVATAR */
+        .avatar-glow {
+            width: 110px; height: 110px;
+            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
             border-radius: 50%; margin: 0 auto 25px;
             display: flex; align-items: center; justify-content: center;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 5px;
         }
 
-        .avatar-box svg { width: 50px; fill: var(--accent); }
+        .avatar-glow svg { width: 50%; fill: #fff; }
 
-        .name { font-weight: 800; font-size: 1.4rem; color: #fff; margin-bottom: 5px; }
+        .name { font-weight: 800; font-size: 1.5rem; letter-spacing: -0.5px; margin-bottom: 5px; }
+        .role { color: var(--accent); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 2px; }
+
+        /* MODAL POP-UP STYLE */
+        .card.active {
+            position: fixed; top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(1.1);
+            width: 400px; z-index: 1000;
+            background: #151512; border: 2px solid var(--accent);
+        }
 
         .hidden-info {
-            max-height: 0; overflow: hidden; opacity: 0;
-            transition: all 0.5s ease;
+            max-height: 0; overflow: hidden; opacity: 0; transition: 0.5s;
         }
 
         .active .hidden-info {
-            max-height: 400px; opacity: 1;
-            margin-top: 25px; padding-top: 25px;
+            max-height: 300px; opacity: 1; margin-top: 25px; padding-top: 25px;
             border-top: 1px solid rgba(212, 175, 55, 0.2);
         }
 
-        .role { color: var(--accent); font-weight: 700; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
-        .bio { font-size: 0.95rem; line-height: 1.6; color: #c9c2b5; margin-top: 15px; }
-
         #overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(10, 8, 5, 0.7); /* Deep brown-tinted dark */
-            backdrop-filter: blur(4px);
-            opacity: 0; visibility: hidden;
-            transition: 0.4s; z-index: 999;
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+            opacity: 0; visibility: hidden; transition: 0.4s; z-index: 999;
         }
 
         #overlay.show { opacity: 1; visibility: visible; }
 
-        .close-btn {
-            display: none; position: absolute; top: 20px; right: 25px;
-            font-size: 2rem; color: var(--accent); cursor: pointer;
-        }
+        .close-btn { display: none; position: absolute; top: 15px; right: 20px; font-size: 1.5rem; color: var(--accent); cursor: pointer; }
         .active .close-btn { display: block; }
     </style>
 </head>
@@ -133,27 +116,37 @@
     <div class="container">
         <div class="card" onclick="toggleCard(this)">
             <span class="close-btn">&times;</span>
-            <div class="avatar-box">
+            <div class="avatar-glow">
                 <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
             </div>
             <div class="name">Pangalan Dito</div>
-            
+            <div class="role">Tagapanguna</div>
             <div class="hidden-info">
-                <div class="role">Tagapanguna (Leader)</div>
-                <div class="bio">Nakatuon sa paggabay sa adbokasiya para sa tapat at malinis na pamumuno sa ating paaralan.</div>
+                <p>Isulat dito ang detalye tungkol sa inyong leader. Ang kaniyang dedikasyon sa tapat na pamumuno.</p>
             </div>
         </div>
 
         <div class="card" onclick="toggleCard(this)">
             <span class="close-btn">&times;</span>
-            <div class="avatar-box">
+            <div class="avatar-glow">
                 <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
             </div>
             <div class="name">Pangalan Dito</div>
-            
+            <div class="role">Mananaliksik</div>
             <div class="hidden-info">
-                <div class="role">Mananaliksik (Researcher)</div>
-                <div class="bio">Naghahanap ng mga datos at impormasyon upang mapagtibay ang ating mga adhikain.</div>
+                <p>Ang kaniyang husay sa paghahanap ng katotohanan ang nagpapatibay sa ating adbokasiya.</p>
+            </div>
+        </div>
+
+        <div class="card" onclick="toggleCard(this)">
+            <span class="close-btn">&times;</span>
+            <div class="avatar-glow">
+                <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            </div>
+            <div class="name">Pangalan Dito</div>
+            <div class="role">Miyembro</div>
+            <div class="hidden-info">
+                <p>Aktibong kabahagi sa pagpapalaganap ng impormasyon para sa ikabubuti ng lahat.</p>
             </div>
         </div>
     </div>
