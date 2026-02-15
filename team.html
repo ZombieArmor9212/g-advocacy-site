@@ -18,76 +18,80 @@
             min-height: 100vh;
         }
 
-        /* TEXTURED FILIPINO BACKGROUND */
+        /* BANIG WEAVE BACKGROUND */
         body::before {
             content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
                 linear-gradient(30deg, #161614 12%, transparent 12.5%, transparent 87%, #161614 87.5%, #161614),
-                linear-gradient(150deg, #161614 12%, transparent 12.5%, transparent 87%, #161614 87.5%, #161614),
-                linear-gradient(30deg, #161614 12%, transparent 12.5%, transparent 87%, #161614 87.5%, #161614),
-                linear-gradient(150deg, #161614 12%, transparent 12.5%, transparent 87%, #161614 87.5%, #161614),
-                linear-gradient(60deg, #1a1a18 25%, transparent 25.5%, transparent 75%, #1a1a18 75%, #1a1a18),
-                linear-gradient(60deg, #1a1a18 25%, transparent 25.5%, transparent 75%, #1a1a18 75%, #1a1a18);
-            background-size: 40px 70px; /* Subtle Banig effect */
+                linear-gradient(150deg, #161614 12%, transparent 12.5%, transparent 87%, #161614 87.5%, #161614);
+            background-size: 40px 70px;
             z-index: -1;
-            opacity: 0.5;
+            opacity: 0.4;
         }
 
         h1 {
-            margin-top: 60px; font-weight: 800; font-size: 3rem;
+            margin-top: 60px; font-weight: 800; font-size: 2.8rem;
             color: var(--accent); font-family: 'Playfair Display', serif;
             font-style: italic; text-align: center;
         }
 
         .container {
             display: flex; flex-wrap: wrap; justify-content: center;
-            gap: 35px; padding: 50px 20px; max-width: 1200px;
+            gap: 40px; padding: 50px 20px;
         }
 
+        /* --- THE CARD --- */
         .card {
-            background: rgba(20, 20, 18, 0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: 20px;
-            padding: 45px 25px;
-            width: 280px;
+            background: rgba(25, 25, 22, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            border-radius: 24px;
+            padding: 40px 25px;
+            width: 260px;
             text-align: center;
             cursor: pointer;
-            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            /* Independent In-Out Transition */
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                        background 0.4s ease, 
+                        box-shadow 0.4s ease, 
+                        opacity 0.4s ease;
             position: relative;
         }
 
         .card:hover {
+            transform: translateY(-10px);
             border-color: var(--accent);
-            transform: translateY(-15px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.6);
+            background: rgba(40, 35, 25, 0.9);
         }
 
-        /* SUN-INSPIRED AVATAR */
-        .avatar-glow {
-            width: 110px; height: 110px;
-            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
-            border-radius: 50%; margin: 0 auto 25px;
-            display: flex; align-items: center; justify-content: center;
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            padding: 5px;
-        }
-
-        .avatar-glow svg { width: 50%; fill: #fff; }
-
-        .name { font-weight: 800; font-size: 1.5rem; letter-spacing: -0.5px; margin-bottom: 5px; }
-        .role { color: var(--accent); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 2px; }
-
-        /* MODAL POP-UP STYLE */
+        /* --- ACTIVE MODAL STATE --- */
         .card.active {
             position: fixed; top: 50%; left: 50%;
-            transform: translate(-50%, -50%) scale(1.1);
-            width: 400px; z-index: 1000;
-            background: #151512; border: 2px solid var(--accent);
+            transform: translate(-50%, -50%) scale(1.1) !important;
+            width: 380px; z-index: 1000;
+            background: #151512;
+            border: 2px solid var(--accent);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.9);
         }
 
+        .avatar-glow {
+            width: 100px; height: 100px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, transparent 70%);
+            border-radius: 50%; margin: 0 auto 20px;
+            display: flex; align-items: center; justify-content: center;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .avatar-glow svg { width: 40px; fill: var(--accent); transition: transform 0.4s; }
+        .card:hover .avatar-glow svg { transform: scale(1.1); }
+
+        .name { font-weight: 800; font-size: 1.4rem; margin-bottom: 5px; }
+        .role { color: var(--accent); font-weight: 600; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px; }
+
+        /* Hidden content in-out animation */
         .hidden-info {
-            max-height: 0; overflow: hidden; opacity: 0; transition: 0.5s;
+            max-height: 0; overflow: hidden; opacity: 0;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .active .hidden-info {
@@ -95,16 +99,23 @@
             border-top: 1px solid rgba(212, 175, 55, 0.2);
         }
 
+        /* --- OVERLAY --- */
         #overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
-            opacity: 0; visibility: hidden; transition: 0.4s; z-index: 999;
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(8px);
+            opacity: 0; visibility: hidden;
+            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 999;
         }
 
         #overlay.show { opacity: 1; visibility: visible; }
 
-        .close-btn { display: none; position: absolute; top: 15px; right: 20px; font-size: 1.5rem; color: var(--accent); cursor: pointer; }
-        .active .close-btn { display: block; }
+        .close-btn { 
+            position: absolute; top: 15px; right: 20px; 
+            font-size: 1.8rem; color: var(--accent); 
+            opacity: 0; transition: 0.3s; pointer-events: none;
+        }
+        .active .close-btn { opacity: 1; pointer-events: auto; }
     </style>
 </head>
 <body>
@@ -122,7 +133,7 @@
             <div class="name">Pangalan Dito</div>
             <div class="role">Tagapanguna</div>
             <div class="hidden-info">
-                <p>Isulat dito ang detalye tungkol sa inyong leader. Ang kaniyang dedikasyon sa tapat na pamumuno.</p>
+                <p>Nangunguna sa pagpapalaganap ng tapat na pamumuno sa ating komunidad.</p>
             </div>
         </div>
 
@@ -134,7 +145,7 @@
             <div class="name">Pangalan Dito</div>
             <div class="role">Mananaliksik</div>
             <div class="hidden-info">
-                <p>Ang kaniyang husay sa paghahanap ng katotohanan ang nagpapatibay sa ating adbokasiya.</p>
+                <p>Nagsisiyasat ng mga katotohanan para sa isang matalinong kinabukasan.</p>
             </div>
         </div>
 
@@ -146,7 +157,7 @@
             <div class="name">Pangalan Dito</div>
             <div class="role">Miyembro</div>
             <div class="hidden-info">
-                <p>Aktibong kabahagi sa pagpapalaganap ng impormasyon para sa ikabubuti ng lahat.</p>
+                <p>Tumutulong sa pagsulong ng boses ng bawat mag-aaral.</p>
             </div>
         </div>
     </div>
@@ -156,6 +167,9 @@
 
         function toggleCard(card) {
             if (!card.classList.contains('active')) {
+                // Remove active from any other card just in case
+                document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+                
                 card.classList.add('active');
                 overlay.classList.add('show');
                 document.body.style.overflow = 'hidden';
