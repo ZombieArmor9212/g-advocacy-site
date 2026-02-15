@@ -10,6 +10,8 @@
             --bg: #0a0a08;
             --glass-border: rgba(212, 175, 55, 0.2);
             --glass-dark: rgba(20, 20, 18, 0.9);
+            /* Smoother, more natural transition curve */
+            --fluid-curve: cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         body {
@@ -32,35 +34,24 @@
 
         /* --- NOTIFICATION POPUP --- */
         .toast-notification {
-            position: fixed; top: 25px; right: -350px; /* Hidden initially */
+            position: fixed; top: 25px; right: -350px;
             width: 280px; background: var(--glass-dark);
             backdrop-filter: blur(15px); border: 1px solid var(--glass-border);
             border-left: 4px solid var(--accent); border-radius: 16px;
             padding: 15px 20px; z-index: 5000;
             display: flex; align-items: center; gap: 15px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-            transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transition: transform 0.7s var(--fluid-curve);
             cursor: pointer;
         }
 
         .toast-notification.show { transform: translateX(-375px); }
 
-        .toast-icon {
-            background: rgba(212, 175, 55, 0.1);
-            padding: 8px; border-radius: 10px; display: flex;
-        }
+        .toast-icon { background: rgba(212, 175, 55, 0.1); padding: 8px; border-radius: 10px; display: flex; }
 
-        .toast-content h4 {
-            margin: 0; font-size: 0.7rem; letter-spacing: 2px;
-            text-transform: uppercase; color: var(--accent);
-        }
-
-        .toast-content p {
-            margin: 2px 0 0 0; font-size: 0.8rem; color: #c9c2b5; font-weight: 500;
-        }
-
-        /* --- EXISTING STYLES --- */
-        .title-section { text-align: center; margin-top: 60px; opacity: 0; animation: revealTitle 1.2s ease-out forwards; }
+        /* --- TITLE SECTION --- */
+        .title-section { text-align: center; margin-top: 60px; opacity: 0; animation: revealTitle 1.2s var(--fluid-curve) forwards; }
+        
         h1 {
             font-family: 'Playfair Display', serif; font-size: clamp(2rem, 6vw, 3.5rem);
             font-weight: 900; font-style: italic; margin: 0;
@@ -68,35 +59,56 @@
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             filter: drop-shadow(0 8px 12px rgba(0,0,0,0.5));
         }
+
         .title-tag { font-size: 0.7rem; letter-spacing: 5px; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; font-weight: 700; }
-        .container { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; padding: 40px 20px; width: 100%; }
+
+        /* --- CARDS GRID --- */
+        .container { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; padding: 40px 20px; width: 100%; max-width: 1200px; }
 
         .card {
             background: rgba(20, 20, 18, 0.7); backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border); border-radius: 28px;
             padding: 35px 25px; width: 240px; text-align: center; cursor: pointer;
             z-index: 1; opacity: 0; transform: translateY(30px);
-            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease, border-color 0.4s ease, opacity 0.6s ease;
+            /* Balanced Duration: 0.3s */
+            transition: transform 0.5s var(--fluid-curve), 
+                        box-shadow 0.5s ease, 
+                        border-color 0.5s ease, 
+                        opacity 0.5s ease;
         }
 
-        .member-name { font-family: 'Playfair Display', serif; font-weight: 900; font-style: italic; font-size: 1.4rem; margin: 15px 0 5px 0; color: #ffffff; text-shadow: 1px 1px 0px rgba(212, 175, 55, 0.3), 0 5px 15px rgba(0,0,0,0.4); }
-        .member-role { font-size: 0.65rem; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); font-weight: 800; opacity: 0.9; }
+        .member-name { font-family: 'Playfair Display', serif; font-weight: 900; font-style: italic; font-size: 1.4rem; margin: 15px 0 5px 0; color: #ffffff; }
+        .member-role { font-size: 0.65rem; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); font-weight: 800; }
         .member-role::after { content: ""; display: block; width: 25%; height: 1px; background: var(--accent); margin: 6px auto; opacity: 0.4; }
 
-        .card:hover:not(.active) { transform: translateY(-10px) rotate(0.5deg); border-color: var(--accent); box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
-        .card.active { z-index: 2000; background: #0f0f0d; border-color: var(--accent); width: 260px; }
+        .card:hover:not(.active) { transform: translateY(-10px); border-color: var(--accent); box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
+        
+        .card.active { z-index: 2000; background: #0f0f0d; border-color: var(--accent); }
 
         .avatar-glow {
             width: 90px; height: 90px; background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
             border-radius: 50%; margin: 0 auto 5px; display: flex; align-items: center; justify-content: center;
-            border: 1px solid rgba(212, 175, 55, 0.1); transition: 0.5s ease;
+            border: 1px solid rgba(212, 175, 55, 0.1); transition: 0.5s var(--fluid-curve);
         }
-        .avatar-glow svg { width: 30px; height: 30px; }
 
-        .active .hidden-info { max-height: 200px; opacity: 1; margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(212, 175, 55, 0.1); }
-        .hidden-info { max-height: 0; overflow: hidden; opacity: 0; transition: 0.5s ease; font-size: 0.85rem; color: #b5b0a3; line-height: 1.5; }
+        /* --- REVEALED INFO --- */
+        .hidden-info { 
+            max-height: 0; overflow: hidden; opacity: 0; 
+            transition: max-height 0.5s var(--fluid-curve), opacity 0.4s ease; 
+            font-size: 0.85rem; color: #b5b0a3; line-height: 1.6; text-align: left;
+        }
 
-        #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75); backdrop-filter: blur(10px); opacity: 0; visibility: hidden; transition: 0.6s ease; z-index: 999; }
+        .active .hidden-info { 
+            max-height: 250px; opacity: 1; margin-top: 20px; padding-top: 20px; 
+            border-top: 1px solid rgba(212, 175, 55, 0.1); 
+        }
+
+        #overlay { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); 
+            opacity: 0; visibility: hidden; z-index: 999;
+            transition: opacity 0.5s var(--fluid-curve), visibility 0.6s;
+        }
         #overlay.show { opacity: 1; visibility: visible; }
 
         @keyframes revealTitle { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
@@ -128,7 +140,9 @@
             </div>
             <div class="member-name">Jose Charito A. Cortez III</div>
             <div class="member-role">Tagabuo ng Website</div>
-            <div class="hidden-info"><p>Siya ang gumawa at nag-ayos ng website na ito. Tinitiyak niya na maayos ang lahat ng buttons at maganda ang itsura ng bawat page para sa inyo.</p></div>
+            <div class="hidden-info">
+                <p>Siya ang gumawa at nag-ayos ng website na ito. Tinitiyak niya na maayos ang lahat ng buttons at maganda ang itsura ng bawat page para sa inyo.</p>
+            </div>
         </div>
 
         <div class="card" onclick="toggleCard(this)">
@@ -137,7 +151,9 @@
             </div>
             <div class="member-name">Nichelle T. Mesiona</div>
             <div class="member-role">Tagadisenyo ng Nilalaman</div>
-            <div class="hidden-info"><p>Katuwang sa paghahanap ng mahahalagang info at sa pag-aayos ng visuals. Siya ang nagsisiguro na hindi lang tama ang impormasyon, kundi madali rin itong basahin.</p></div>
+            <div class="hidden-info">
+                <p>Katuwang sa paghahanap ng mahahalagang info at sa pag-aayos ng visuals. Siya ang nagsisiguro na hindi lang tama ang impormasyon, kundi madali rin itong basahin.</p>
+            </div>
         </div>
 
         <div class="card" onclick="toggleCard(this)">
@@ -146,13 +162,15 @@
             </div>
             <div class="member-name">Gregory Kim C. Aquino</div>
             <div class="member-role">Mananaliksik</div>
-            <div class="hidden-info"><p>Siya ang naghahanap ng mga tamang impormasyon at datos. Siya rin ang tumutulong sa pag-iisip ng mga design para maging malinaw ang ating mensahe.</p></div>
+            <div class="hidden-info">
+                <p>Siya ang naghahanap ng mga tamang impormasyon at datos. Siya rin ang tumutulong sa pag-iisip ng mga design para maging malinaw ang ating mensahe.</p>
+            </div>
         </div>
     </div>
 
     <script>
         window.addEventListener('load', () => {
-            // Reveal cards with delay
+            // Cards appear with a 150ms delay stagger for a "wave" effect
             document.querySelectorAll('.card').forEach((card, i) => {
                 setTimeout(() => {
                     card.style.opacity = '1';
@@ -160,29 +178,21 @@
                 }, 150 * (i + 1));
             });
 
-            // Show Toast after 1 second
             setTimeout(() => {
                 const toast = document.getElementById('tipToast');
                 toast.classList.add('show');
-                
-                // Auto hide after 6 seconds
-                setTimeout(() => {
-                    hideToast();
-                }, 6000);
+                setTimeout(() => hideToast(), 6000);
             }, 1000);
         });
 
         function hideToast() {
-            const toast = document.getElementById('tipToast');
-            toast.classList.remove('show');
+            document.getElementById('tipToast').classList.remove('show');
         }
 
         const overlay = document.getElementById('overlay');
 
         function toggleCard(card) {
             if (card.classList.contains('active')) return;
-            
-            // Hide toast immediately if user interacts
             hideToast();
             
             const rect = card.getBoundingClientRect();
@@ -195,7 +205,8 @@
             card.classList.add('active');
             overlay.classList.add('show');
             
-            card.style.transform = `translate(${moveX}px, ${moveY}px) scale(1.15)`;
+            // Subtle 1.1x scale for a more grounded feel
+            card.style.transform = `translate(${moveX}px, ${moveY}px) scale(1.1)`;
             document.body.style.overflow = 'hidden';
         }
 
