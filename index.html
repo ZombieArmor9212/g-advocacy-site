@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;900&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-dark: #0d0d0b;
@@ -14,50 +14,64 @@
             margin: 0; padding: 0; height: 100%;
             font-family: 'Montserrat', sans-serif;
             background-color: var(--bg-dark);
-            overflow: hidden;
+            overflow: hidden; /* Keeps the focus on the hero card */
+            color: #fffaf0;
         }
 
-        /* DUAL LAYER BACKGROUND: Image + Abaca Texture */
-        body::before {
-            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #0d0d0b; /* Fallback color */
+        /* --- THE BACKGROUND IMAGE FIX --- */
+        .site-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Double-check that the file extension is .jpg and not .png or .JPG */
             background-image: 
-                linear-gradient(rgba(13, 13, 11, 0.8), rgba(13, 13, 11, 0.95)),
-                url('./images/g-site-bg-1.jpg');
+                linear-gradient(rgba(13, 13, 11, 0.8), rgba(13, 13, 11, 0.92)),
+                url('images/g-site-bg-1.jpg');
             background-size: cover;
             background-position: center;
-            background-repeat: no-repeat;
             z-index: -2;
         }
 
-        body::after {
-            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        /* --- ABACA WEAVE OVERLAY --- */
+        .texture-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: 
                 repeating-linear-gradient(45deg, #1a150e 0, #1a150e 1px, transparent 0, transparent 50%),
                 repeating-linear-gradient(-45deg, #1a150e 0, #1a150e 1px, transparent 0, transparent 50%);
             background-size: 15px 15px;
             z-index: -1;
-            opacity: 0.4; /* Makes the weave subtle over the photo */
+            opacity: 0.3;
         }
 
         .hero-container {
-            width: 100%; height: 100vh;
-            display: flex; justify-content: center; align-items: center; text-align: center;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
         }
 
         .glass-card {
-            padding: 4rem;
+            padding: 4rem 2rem;
             background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(212, 175, 55, 0.1);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(212, 175, 55, 0.15);
             border-radius: 40px;
             max-width: 800px;
-            animation: fadeInOut 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            margin: 0 20px;
+            animation: cardReveal 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
 
         h1 {
-            font-size: clamp(2.2rem, 6vw, 3.8rem); 
+            font-size: clamp(2.2rem, 7vw, 3.8rem); 
             font-weight: 900;
             margin: 0;
             color: #fffaf0;
@@ -69,24 +83,29 @@
         .subtitle {
             margin-top: 1.5rem;
             font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
             color: var(--accent);
             font-style: italic;
             letter-spacing: 1px;
         }
 
-        @keyframes fadeInOut {
-            0% { transform: scale(0.95) translateY(20px); opacity: 0; filter: blur(10px); }
+        @keyframes cardReveal {
+            0% { transform: scale(0.9) translateY(40px); opacity: 0; filter: blur(10px); }
             100% { transform: scale(1) translateY(0); opacity: 1; filter: blur(0); }
         }
     </style>
 </head>
 <body>
+
+    <div class="site-bg"></div>
+    <div class="texture-overlay"></div>
+
     <div class="hero-container">
         <div class="glass-card">
             <h1>Tapat na Pamumuno,<br>Pantay na Pagkakataon</h1>
             <p class="subtitle">Adhikaing Pilipino</p>
         </div>
     </div>
+
 </body>
 </html>
