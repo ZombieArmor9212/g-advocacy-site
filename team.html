@@ -9,8 +9,8 @@
             --accent: #d4af37;
             --bg: #0a0a08;
             --glass-border: rgba(212, 175, 55, 0.2);
-            --glass-dark: rgba(20, 20, 18, 0.9);
-            --fluid-curve: cubic-bezier(0.4, 0, 0.2, 1);
+            --glass-dark: rgba(20, 20, 18, 0.95);
+            --fluid-curve: cubic-bezier(0.19, 1, 0.22, 1);
         }
 
         body {
@@ -31,98 +31,126 @@
             z-index: -1; opacity: 0.5;
         }
 
-        /* --- TOAST --- */
-        .toast-notification {
-            position: fixed; top: 25px; right: -350px;
-            width: 280px; background: var(--glass-dark);
-            backdrop-filter: blur(15px); border: 1px solid var(--glass-border);
-            border-left: 4px solid var(--accent); border-radius: 16px;
-            padding: 15px 20px; z-index: 5000;
-            display: flex; align-items: center; gap: 15px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-            transition: transform 0.7s var(--fluid-curve);
-            cursor: pointer;
+        /* --- STARTUP ANIMATIONS --- */
+        .title-section { 
+            text-align: center; 
+            margin-top: 60px; 
+            opacity: 0; 
+            transform: translateY(-20px);
+            animation: fadeInDown 1.2s var(--fluid-curve) forwards;
         }
 
-        .toast-notification.show { transform: translateX(-375px); }
+        @keyframes fadeInDown {
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-        .toast-icon { background: rgba(212, 175, 55, 0.1); padding: 8px; border-radius: 10px; display: flex; }
-
-        /* --- TITLE --- */
-        .title-section { text-align: center; margin-top: 60px; opacity: 0; animation: revealTitle 1.2s var(--fluid-curve) forwards; }
-        
         h1 {
             font-family: 'Playfair Display', serif; font-size: clamp(2rem, 6vw, 3.5rem);
             font-weight: 900; font-style: italic; margin: 0;
             background: linear-gradient(to bottom, #fffaf0, #d4af37);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.5));
         }
-
         .title-tag { font-size: 0.7rem; letter-spacing: 5px; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; font-weight: 700; }
 
-        /* --- CARDS GRID --- */
         .container { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; padding: 40px 20px; width: 100%; max-width: 1200px; }
 
+        /* --- CARD BASE --- */
         .card {
             background: rgba(20, 20, 18, 0.7); backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border); border-radius: 28px;
             padding: 35px 25px; width: 280px; text-align: center; cursor: pointer;
-            z-index: 1; opacity: 0; transform: translateY(30px);
-            transition: transform 0.4s var(--fluid-curve), 
-                        box-shadow 0.4s ease, 
-                        border-color 0.4s ease, 
-                        opacity 0.4s ease;
+            z-index: 1; 
+            display: flex; flex-direction: column; align-items: center;
+            position: relative;
+            
+            /* Initial state for startup animation */
+            opacity: 0;
+            transform: translateY(40px) scale(0.9);
+            transition: transform 0.8s var(--fluid-curve), opacity 0.6s ease, border-color 0.4s ease, box-shadow 0.4s ease;
         }
 
-        .member-name { font-family: 'Playfair Display', serif; font-weight: 900; font-style: italic; font-size: 1.4rem; margin: 15px 0 5px 0; color: #ffffff; }
-        .member-role { font-size: 0.65rem; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); font-weight: 800; }
-        .member-role::after { content: ""; display: block; width: 25%; height: 1px; background: var(--accent); margin: 6px auto; opacity: 0.4; }
+        /* Class added by JS on load */
+        .card.reveal {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
 
-        .card:hover:not(.active) { transform: translateY(-10px); border-color: var(--accent); box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
-        
-        .card.active { z-index: 2000; background: #0f0f0d; border-color: var(--accent); cursor: default; }
+        .card:hover:not(.active) { transform: translateY(-10px); border-color: var(--accent); }
+
+        /* --- PASSPORT ACTIVE STATE --- */
+        .card.active {
+            width: 580px; 
+            flex-direction: row; 
+            text-align: left;
+            align-items: center;
+            padding: 45px;
+            cursor: default;
+            z-index: 2000;
+            background: #0f0f0d;
+            border-color: var(--accent);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+            position: fixed;
+            top: 50%; left: 50%;
+            margin: 0;
+            opacity: 1; /* Ensure it stays visible */
+        }
 
         .avatar-glow {
-            width: 90px; height: 90px; background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
-            border-radius: 50%; margin: 0 auto 5px; display: flex; align-items: center; justify-content: center;
-            border: 1px solid rgba(212, 175, 55, 0.1); transition: 0.4s var(--fluid-curve);
+            width: 90px; height: 90px; 
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
+            border-radius: 15px;
+            display: flex; align-items: center; justify-content: center;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            transition: all 0.8s var(--fluid-curve);
+            flex-shrink: 0;
         }
 
-        /* --- REVEALED INFO --- */
+        .active .avatar-glow {
+            width: 150px; height: 210px; 
+            margin-right: 35px;
+            border: 1px solid var(--accent);
+        }
+
+        .member-info-wrapper { flex-grow: 1; }
+
+        .member-name { 
+            font-family: 'Playfair Display', serif; font-weight: 900; font-style: italic; 
+            font-size: 1.4rem; margin: 15px 0 5px 0; color: #ffffff; 
+        }
+        .active .member-name { font-size: 2rem; margin: 0; line-height: 1.2; }
+
+        .member-role { 
+            font-size: 0.65rem; letter-spacing: 4px; text-transform: uppercase; 
+            color: var(--accent); font-weight: 800; 
+        }
+        .member-role::after { content: ""; display: block; width: 40px; height: 1px; background: var(--accent); margin: 8px 0; opacity: 0.5; }
+        .card:not(.active) .member-role::after { margin: 8px auto; width: 20%; }
+
         .hidden-info { 
             max-height: 0; overflow: hidden; opacity: 0; 
-            transition: max-height 0.4s var(--fluid-curve), opacity 0.4s ease; 
-            font-size: 0.85rem; color: #b5b0a3; line-height: 1.6; text-align: left;
+            font-size: 0.88rem; color: #b5b0a3; line-height: 1.6;
+            transition: all 0.5s ease;
         }
 
         .active .hidden-info { 
-            max-height: 400px; opacity: 1; margin-top: 20px; padding-top: 20px; 
-            border-top: 1px solid rgba(212, 175, 55, 0.1); 
+            max-height: 400px; opacity: 1; margin-top: 15px;
         }
 
         #overlay { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); 
+            background: rgba(0,0,0,0.9); backdrop-filter: blur(12px); 
             opacity: 0; visibility: hidden; z-index: 999;
-            transition: opacity 0.4s var(--fluid-curve), visibility 0.4s;
+            transition: 0.5s;
         }
         #overlay.show { opacity: 1; visibility: visible; }
 
-        @keyframes revealTitle { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+        @media (max-width: 650px) {
+            .card.active { width: 90vw; flex-direction: column; text-align: center; padding: 30px; }
+            .active .avatar-glow { margin: 0 0 20px 0; width: 120px; height: 160px; }
+        }
     </style>
 </head>
 <body>
-
-    <div class="toast-notification" id="tipToast" onclick="hideToast()">
-        <div class="toast-icon">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#d4af37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-        </div>
-        <div class="toast-content">
-            <h4 style="margin: 0; color: #fffaf0; font-size: 0.9rem;">Tip ng System</h4>
-            <p style="margin: 0; color: #c9c2b5; font-size: 0.75rem;">I-click ang mga card para sa detalye.</p>
-        </div>
-    </div>
 
     <div id="overlay"></div>
 
@@ -134,92 +162,117 @@
     <div class="container">
         <div class="card" onclick="toggleCard(this)">
             <div class="avatar-glow">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="#d4af37" stroke-width="1.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
             </div>
-            <div class="member-name">Jose Charito A. Cortez III</div>
-            <div class="member-role">Full-Stack Creator & Owner</div>
-            <div class="hidden-info">
-                <p><strong>Siya ang tanging gumawa ng kabuuan ng website na ito.</strong> Mula sa konsepto, coding ng logic, disenyo ng bawat pahina, hanggang sa pag-manage ng GitHub repository—siya ang mag-isang bumuo at nagpatakbo sa teknikal na aspeto ng proyekto. Siya ang nagsilbing "anchor" na binuhat ang lahat ng gawain upang maging matagumpay ang platform na ito.</p>
-            </div>
-        </div>
-
-        <div class="card" onclick="toggleCard(this)">
-            <div class="avatar-glow">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-            </div>
-            <div class="member-name">Nichelle T. Mesiona</div>
-            <div class="member-role">Tagadisenyo ng Nilalaman</div>
-            <div class="hidden-info">
-                <p>Katuwang sa paghahanap ng mahahalagang impormasyon at sa pag-aayos ng visuals. Siya ang nagsisiguro na hindi lang tama ang impormasyon, kundi madali rin itong basahin at kaaya-aya sa mata ng mga bisita.</p>
+            <div class="member-info-wrapper">
+                <div class="member-name">Jose Charito A. Cortez III</div>
+                <div class="member-role">Punong Tagabuo at May-ari</div>
+                <div class="hidden-info">
+                    <p>Siya ang tanging arkitekto ng buong platapormang ito. Mula sa pundasyon ng coding hanggang sa huling detalye ng disenyo, binuhat niya ang teknikal na aspeto ng proyekto.</p>
+                </div>
             </div>
         </div>
 
         <div class="card" onclick="toggleCard(this)">
             <div class="avatar-glow">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="#d4af37" stroke-width="1.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
             </div>
-            <div class="member-name">Gregory Kim C. Aquino</div>
-            <div class="member-role">Mananaliksik</div>
-            <div class="hidden-info">
-                <p>Siya ang naghahanap ng mga tamang impormasyon at datos. Siya rin ang tumutulong sa pag-iisip ng mga aspeto ng disenyo para maging malinaw at makabuluhan ang ating mensahe sa bawat Pilipino.</p>
+            <div class="member-info-wrapper">
+                <div class="member-name">Nichelle T. Mesiona</div>
+                <div class="member-role">Tagadisenyo ng Nilalaman</div>
+                <div class="hidden-info">
+                    <p>Siya ang katuwang sa paglikha ng mga biswal na elemento. Tinitiyak niya na ang bawat impormasyon ay wasto at madaling unawain.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" onclick="toggleCard(this)">
+            <div class="avatar-glow">
+                <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="#d4af37" stroke-width="1.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </div>
+            <div class="member-info-wrapper">
+                <div class="member-name">Gregory Kim C. Aquino</div>
+                <div class="member-role">Mananaliksik ng Datos</div>
+                <div class="hidden-info">
+                    <p>Siya ang nagsisilbing gabay sa paghahanap ng katotohanan sa pamamagitan ng masusing pananaliksik at pagpapatunay ng datos.</p>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
         const overlay = document.getElementById('overlay');
+        let activeCard = null;
+        let placeholder = document.createElement('div');
 
-        window.addEventListener('load', () => {
-            document.querySelectorAll('.card').forEach((card, i) => {
+        // --- STARTUP ANIMATION LOGIC ---
+        window.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
                 setTimeout(() => {
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                }, 150 * (i + 1));
+                    card.classList.add('reveal');
+                }, 400 + (index * 200)); // Staggered delay
             });
-
-            setTimeout(() => {
-                const toast = document.getElementById('tipToast');
-                if(toast) {
-                    toast.classList.add('show');
-                    setTimeout(() => hideToast(), 6000);
-                }
-            }, 1000);
         });
 
-        function hideToast() {
-            const toast = document.getElementById('tipToast');
-            if(toast) toast.classList.remove('show');
-        }
-
         function toggleCard(card) {
-            if (card.classList.contains('active')) {
-                closeActiveCard();
-                return;
-            }
+            if (card.classList.contains('active')) return;
 
-            closeActiveCard();
-            hideToast();
-            
-            const rect = card.getBoundingClientRect();
-            const centerX = window.innerWidth / 2;
-            const centerY = window.innerHeight / 2;
-            const moveX = centerX - (rect.left + rect.width / 2);
-            const moveY = centerY - (rect.top + rect.height / 2);
+            activeCard = card;
+            const first = card.getBoundingClientRect();
+
+            placeholder.style.width = first.width + 'px';
+            placeholder.style.height = first.height + 'px';
+            card.after(placeholder);
 
             card.classList.add('active');
             overlay.classList.add('show');
-            card.style.transform = `translate(${moveX}px, ${moveY}px) scale(1.1)`;
             document.body.style.overflow = 'hidden';
+
+            const last = card.getBoundingClientRect();
+            const invertX = first.left - last.left;
+            const invertY = first.top - last.top;
+            const invertScaleW = first.width / last.width;
+            const invertScaleH = first.height / last.height;
+
+            card.style.transition = 'none'; 
+            card.style.transform = `translate(${invertX}px, ${invertY}px) scale(${invertScaleW}, ${invertScaleH})`;
+
+            requestAnimationFrame(() => {
+                card.style.transition = 'transform 0.8s var(--fluid-curve), background 0.4s, width 0.8s, padding 0.8s';
+                card.style.transform = 'translate(-50%, -50%) scale(1, 1)';
+            });
         }
 
         function closeActiveCard() {
-            const activeCard = document.querySelector('.card.active');
-            if (activeCard) {
-                activeCard.classList.remove('active');
-                activeCard.style.transform = `translate(0, 0) scale(1)`;
-            }
+            if (!activeCard) return;
+
+            const card = activeCard;
+            const first = card.getBoundingClientRect();
+            
+            card.classList.remove('active');
+            card.style.position = 'absolute';
+            const last = placeholder.getBoundingClientRect();
+            card.classList.add('active');
+            card.style.position = '';
+
+            const invertX = last.left - first.left;
+            const invertY = last.top - first.top;
+            const scaleW = last.width / first.width;
+            const scaleH = last.height / first.height;
+
+            card.style.transform = `translate(calc(-50% + ${invertX}px), calc(-50% + ${invertY}px)) scale(${scaleW}, ${scaleH})`;
             overlay.classList.remove('show');
-            document.body.style.overflow = 'auto';
+
+            card.addEventListener('transitionend', function handler() {
+                card.classList.remove('active');
+                card.style.transform = '';
+                card.style.transition = 'transform 0.8s var(--fluid-curve), opacity 0.6s ease';
+                placeholder.remove();
+                document.body.style.overflow = 'auto';
+                activeCard = null;
+                card.removeEventListener('transitionend', handler);
+            }, { once: true });
         }
 
         overlay.onclick = closeActiveCard;
