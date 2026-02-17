@@ -43,3 +43,8 @@ ZombieArmor9212
 
 LICENSE
 This project was developed for educational and advocacy purposes.
+
+## Credits and Sources
+- **Visuals:** Background images sourced from user-provided assets (`boat-sea.png`, `mountain-horizon.jpg`).
+- **Icons:** SVG icons from Lucide/Feather icons library.
+- **Design Inspiration:** Glassmorphism and "Passport" card transition mechanics.
