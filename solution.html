@@ -23,20 +23,27 @@
             overflow-x: hidden;
         }
 
+        /* --- UPDATED BACKGROUND --- */
         body::before {
             content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
-                linear-gradient(rgba(10, 10, 8, 0.9), rgba(10, 10, 8, 0.9)),
-                url('images/g-site-bg-1.jpg');
+                linear-gradient(rgba(10, 10, 8, 0.85), rgba(10, 10, 8, 0.95)),
+                url('https://raw.githubusercontent.com/ZombieArmor9212/g-advocacy-site/main/images/mountain-horizon.jpg');
             background-size: cover; background-position: center;
-            filter: blur(5px); z-index: -1;
+            z-index: -1;
+            /* Optional: removed blur for a sharper mountain look, add back if preferred */
         }
 
         .container {
             max-width: 900px; margin: 0 auto; padding: 60px 20px;
         }
 
-        .header-section { text-align: center; margin-bottom: 50px; }
+        .header-section { 
+            text-align: center; margin-bottom: 50px; 
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUp 1s ease-out forwards;
+        }
         
         .header-section h1 {
             font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 2.8rem); font-style: italic;
@@ -49,7 +56,7 @@
             color: var(--accent); margin-top: 10px; font-weight: 700;
         }
 
-        /* --- ENHANCED ISSUE CARDS --- */
+        /* --- ENHANCED ISSUE CARDS WITH ANIMATION --- */
         .issue-card {
             background: var(--glass);
             backdrop-filter: blur(20px);
@@ -65,10 +72,11 @@
             overflow: hidden;
         }
 
+        /* --- HOVER SCALE & GLOW --- */
         .issue-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-10px) scale(1.02); /* Added scale up */
             border-color: var(--accent);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2), 0 20px 40px rgba(0,0,0,0.6); /* Added golden glow */
         }
 
         .issue-card::before {
@@ -128,7 +136,7 @@
             <h1>Suliranin at Solusyon</h1>
         </div>
 
-        <div class="issue-card" style="animation-delay: 0.1s;">
+        <div class="issue-card" style="animation-delay: 0.2s;">
             <div class="badge badge-problem">Isyu Blg. 1</div>
             <h2>Krisis sa Integridad: Korapsyon</h2>
             <div class="content-grid">
@@ -144,7 +152,7 @@
             </div>
         </div>
 
-        <div class="issue-card" style="animation-delay: 0.3s;">
+        <div class="issue-card" style="animation-delay: 0.4s;">
             <div class="badge badge-problem">Isyu Blg. 2</div>
             <h2>Siklo ng Kahirapan</h2>
             <div class="content-grid">
