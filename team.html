@@ -21,14 +21,26 @@
             min-height: 100vh; overflow-x: hidden;
         }
 
-        body::before {
-            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        /* --- FIXED BACKGROUND SYSTEM --- */
+        .site-bg-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100vh;
+            z-index: -2;
+            overflow: hidden;
+            background-color: var(--bg);
+        }
+
+        .site-bg {
+            position: absolute;
+            top: -15%; left: -5%;
+            width: 110%; height: 130%; 
             background-image: 
-                radial-gradient(circle at center, transparent 0%, var(--bg) 90%),
-                linear-gradient(30deg, #161614 12%, transparent 12.5%, transparent 87%, #161614 87.5%, #161614),
-                linear-gradient(150deg, #161614 12%, transparent 12.5%, transparent 87%, #161614 87.5%, #161614);
-            background-size: 100% 100%, 40px 70px, 40px 70px;
-            z-index: -1; opacity: 0.5;
+                linear-gradient(rgba(10, 10, 8, 0.8), rgba(10, 10, 8, 0.95)),
+                url('https://raw.githubusercontent.com/ZombieArmor9212/g-advocacy-site/main/images/boat-sea.png');
+            background-size: cover;
+            background-position: center center;
+            will-change: transform;
         }
 
         /* --- STARTUP ANIMATIONS --- */
@@ -63,13 +75,11 @@
             display: flex; flex-direction: column; align-items: center;
             position: relative;
             
-            /* Initial state for startup animation */
             opacity: 0;
             transform: translateY(40px) scale(0.9);
             transition: transform 0.8s var(--fluid-curve), opacity 0.6s ease, border-color 0.4s ease, box-shadow 0.4s ease;
         }
 
-        /* Class added by JS on load */
         .card.reveal {
             opacity: 1;
             transform: translateY(0) scale(1);
@@ -92,7 +102,7 @@
             position: fixed;
             top: 50%; left: 50%;
             margin: 0;
-            opacity: 1; /* Ensure it stays visible */
+            opacity: 1; 
         }
 
         .avatar-glow {
@@ -154,6 +164,10 @@
 
     <div id="overlay"></div>
 
+    <div class="site-bg-container">
+        <div class="site-bg" id="bg"></div>
+    </div>
+
     <div class="title-section">
         <div class="title-tag">Mula sa Puso ng Pilipino</div>
         <h1>Ang Aming Grupo</h1>
@@ -205,13 +219,19 @@
         let activeCard = null;
         let placeholder = document.createElement('div');
 
+        // Added Parallax Logic (0.01 factor)
+        window.addEventListener('scroll', () => {
+            const bg = document.getElementById('bg');
+            bg.style.transform = `translateY(${window.pageYOffset * 0.01}px)`;
+        });
+
         // --- STARTUP ANIMATION LOGIC ---
         window.addEventListener('DOMContentLoaded', () => {
             const cards = document.querySelectorAll('.card');
             cards.forEach((card, index) => {
                 setTimeout(() => {
                     card.classList.add('reveal');
-                }, 400 + (index * 200)); // Staggered delay
+                }, 400 + (index * 200)); 
             });
         });
 
