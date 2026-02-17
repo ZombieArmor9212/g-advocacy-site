@@ -8,8 +8,8 @@
         :root {
             --accent: #d4af37;
             --bg: #0a0a08;
-            --glass: rgba(20, 20, 18, 0.9);
-            --glass-border: rgba(212, 175, 55, 0.2);
+            --glass: rgba(20, 20, 18, 0.85);
+            --glass-border: rgba(212, 175, 55, 0.15);
             --snap-curve: cubic-bezier(0.19, 1, 0.22, 1);
         }
 
@@ -18,12 +18,13 @@
         body {
             background-color: var(--bg);
             color: #fffaf0;
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Playfair Display', serif;
             line-height: 1.6;
             overflow-x: hidden;
+            min-height: 100vh;
         }
 
-        /* --- BACKGROUND (Mountain Landscape) --- */
+        /* --- BACKGROUND --- */
         .site-bg-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
             z-index: -2; overflow: hidden;
@@ -31,91 +32,139 @@
 
         .site-bg {
             position: absolute;
-            top: -15%; left: -5%; width: 110%; height: 130%;
-            /* Using a high-quality mountain landscape for the references page */
+            top: -10%; left: -5%; width: 110%; height: 120%;
             background-image: 
-                linear-gradient(rgba(10, 10, 8, 0.8), rgba(10, 10, 8, 0.96)),
-                url('http://googleusercontent.com/image_collection/image_retrieval/11324221559332244474_0');
+                linear-gradient(rgba(10, 10, 8, 0.88), rgba(10, 10, 8, 0.97)),
+                url('https://blog.opodo.co.uk/wp-content/uploads/sites/12/2016/05/philippines-palawan.jpg');
             background-size: cover;
             background-position: center;
-            will-change: transform;
         }
 
-        /* --- CONTENT --- */
+        /* --- LAYOUT --- */
         .container {
-            min-height: 100vh;
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 120px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 100px 20px;
         }
 
         .header-section {
             text-align: center;
-            margin-bottom: 60px;
-            opacity: 0; transform: translateY(30px);
+            margin-bottom: 70px;
+            opacity: 0;
+            transform: translateY(30px);
             animation: revealUp 1s var(--snap-curve) forwards;
         }
 
         .header-section p {
-            font-size: 0.8rem; letter-spacing: 5px; text-transform: uppercase;
-            color: var(--accent); font-weight: 700; margin-bottom: 10px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.7rem; letter-spacing: 6px; text-transform: uppercase;
+            color: var(--accent); font-weight: 800; margin-bottom: 15px;
         }
 
         .header-section h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2.5rem, 6vw, 3.5rem);
+            font-size: clamp(2.5rem, 6vw, 3.8rem);
             font-style: italic;
+            font-weight: 900;
         }
 
-        .ref-card {
-            background: var(--glass);
-            backdrop-filter: blur(25px);
-            border: 1px solid var(--glass-border);
-            border-radius: 30px;
-            padding: 50px;
-            max-width: 900px;
+        /* --- LIST --- */
+        .ref-list {
             width: 100%;
-            opacity: 0; transform: translateY(40px);
-            animation: revealUp 1.2s 0.2s var(--snap-curve) forwards;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
         .ref-item {
-            margin-bottom: 35px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
-        }
-
-        .ref-item:last-child { border-bottom: none; }
-
-        .ref-title {
-            color: var(--accent);
-            font-size: 0.75rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .ref-content {
-            font-size: 1rem;
-            color: #fffaf0;
-            margin-bottom: 8px;
-        }
-
-        .ref-link {
-            font-size: 0.85rem;
-            color: var(--accent);
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px 40px;
+            display: flex;
+            align-items: center;
+            gap: 35px;
             text-decoration: none;
-            opacity: 0.7;
-            transition: 0.3s;
-            word-break: break-all;
+            color: inherit;
+            transition: all 0.5s var(--snap-curve);
+            opacity: 0;
+            transform: translateX(-20px);
         }
 
-        .ref-link:hover { opacity: 1; text-decoration: underline; }
+        .ref-item.reveal {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .ref-item:hover {
+            border-color: var(--accent);
+            transform: translateX(12px);
+            background: rgba(30, 30, 25, 0.98);
+            box-shadow: -15px 15px 40px rgba(0,0,0,0.6);
+        }
+
+        .ref-number {
+            font-size: 2rem;
+            font-style: italic;
+            color: var(--accent);
+            opacity: 0.3;
+            font-weight: 900;
+            min-width: 50px;
+        }
+
+        .ref-info {
+            flex-grow: 1;
+        }
+
+        .ref-category {
+            font-style: italic; /* Cursive Style */
+            font-size: 0.9rem;
+            color: var(--accent);
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .website-name {
+            font-family: 'Montserrat', sans-serif; /* Montserrat */
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: #fffaf0;
+            display: block;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .ref-link-display {
+            font-family: 'Montserrat', sans-serif; /* Montserrat */
+            font-size: 0.7rem;
+            color: #b5b0a3;
+            opacity: 0.5;
+            word-break: break-all;
+            letter-spacing: 0.5px;
+        }
+
+        .ref-arrow {
+            color: var(--accent);
+            opacity: 0.2;
+            transition: 0.4s var(--snap-curve);
+        }
+
+        .ref-item:hover .ref-arrow {
+            opacity: 1;
+            transform: translateX(5px);
+        }
 
         @keyframes revealUp { to { opacity: 1; transform: translateY(0); } }
 
+        @media (max-width: 600px) {
+            .ref-item { padding: 25px; gap: 20px; }
+            .ref-number { font-size: 1.5rem; min-width: 30px; }
+            .website-name { font-size: 1rem; }
+        }
     </style>
 </head>
 <body>
@@ -126,40 +175,62 @@
 
     <div class="container">
         <div class="header-section">
-            <p>Mula sa Pinagkukunan</p>
+            <p>Visual Credits</p>
             <h1>Mga Sanggunian</h1>
         </div>
 
-        <div class="ref-card">
-            
-            <div class="ref-item">
-                <div class="ref-title">Image Source (Homepage)</div>
-                <div class="ref-content">Tipton, W. (2025, August 20). Reforestation in the Philippines – Challenges and Solutions – Part 1. OPISAC.</div>
-                <a href="https://opisacglobal.org/reforestation-in-the-philippines-challenges-and-solutions-part-1/" class="ref-link" target="_blank">https://opisacglobal.org/reforestation-in-the-philippines-challenges-and-solutions-part-1/</a>
-            </div>
+        <div class="ref-list">
+            <a href="https://www.opodo.co.uk/blog/places-in-philippines/" class="ref-item" target="_blank">
+                <div class="ref-number">01</div>
+                <div class="ref-info">
+                    <span class="ref-category">Pinagmulang Larawan</span>
+                    <span class="website-name">Opodo Travel Blog</span>
+                    <div class="ref-link-display">opodo.co.uk/blog/places-in-philippines/</div>
+                </div>
+                <div class="ref-arrow">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </div>
+            </a>
 
-            <div class="ref-item">
-                <div class="ref-title">Data/Text Source</div>
-                <div class="ref-content">Ilagay dito ang detalye ng inyong source (Author, Year, Title).</div>
-                <a href="#" class="ref-link">https://example-link-source.com</a>
-            </div>
+            <a href="https://www.roughguides.com/philippines/" class="ref-item" target="_blank">
+                <div class="ref-number">02</div>
+                <div class="ref-info">
+                    <span class="ref-category">Pinagmulang Larawan</span>
+                    <span class="website-name">Rough Guides</span>
+                    <div class="ref-link-display">roughguides.com/philippines/</div>
+                </div>
+                <div class="ref-arrow">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </div>
+            </a>
 
+            <a href="https://opisacglobal.org/reforestation-in-the-philippines-challenges-and-solutions-part-1/" class="ref-item" target="_blank">
+                <div class="ref-number">03</div>
+                <div class="ref-info">
+                    <span class="ref-category">Pinagmulang Larawan</span>
+                    <span class="website-name">OPISAC Global</span>
+                    <div class="ref-link-display">opisacglobal.org/reforestation-in-the-philippines/</div>
+                </div>
+                <div class="ref-arrow">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </div>
+            </a>
         </div>
     </div>
 
     <script>
-        // Use the same "Safe Parallax" from your homepage
+        window.addEventListener('DOMContentLoaded', () => {
+            const items = document.querySelectorAll('.ref-item');
+            items.forEach((item, index) => {
+                setTimeout(() => { item.classList.add('reveal'); }, 400 + (index * 150));
+            });
+        });
+
         window.addEventListener('scroll', () => {
             const bg = document.getElementById('bg');
             const scrollY = window.pageYOffset;
-            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-            const scrollProgress = Math.min(scrollY / maxScroll, 1);
-            
-            // Adjust the 0.2 to change movement intensity
-            const maxMove = window.innerHeight * 0.2; 
-            bg.style.transform = `translateY(${scrollProgress * maxMove}px)`;
+            bg.style.transform = `translateY(${scrollY * 0.15}px)`;
         });
     </script>
-
 </body>
 </html>
