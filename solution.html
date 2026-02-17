@@ -12,123 +12,135 @@
             --glass-border: rgba(212, 175, 55, 0.2);
             --red-tint: rgba(255, 99, 71, 0.05);
             --green-tint: rgba(144, 238, 144, 0.05);
-            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            --snap-curve: cubic-bezier(0.19, 1, 0.22, 1);
         }
 
-        body, html {
-            margin: 0; padding: 0; min-height: 100vh;
-            font-family: 'Montserrat', sans-serif;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
             background-color: var(--bg);
             color: #fffaf0;
+            font-family: 'Montserrat', sans-serif;
             overflow-x: hidden;
         }
 
-        /* --- UPDATED BACKGROUND --- */
-        body::before {
-            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        /* --- EXACT CLONE OF YOUR WORKING INDEX BG SYSTEM --- */
+        .site-bg-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100vh;
+            z-index: -2;
+            overflow: hidden;
+            background-color: var(--bg);
+        }
+
+        .site-bg {
+            position: absolute;
+            top: -15%; left: -5%;
+            width: 110%; height: 130%; 
             background-image: 
-                linear-gradient(rgba(10, 10, 8, 0.85), rgba(10, 10, 8, 0.95)),
+                linear-gradient(rgba(10, 10, 8, 0.8), rgba(10, 10, 8, 0.95)),
                 url('https://raw.githubusercontent.com/ZombieArmor9212/g-advocacy-site/main/images/mountain-horizon.jpg');
-            background-size: cover; background-position: center;
-            z-index: -1;
-            /* Optional: removed blur for a sharper mountain look, add back if preferred */
+            background-size: cover;
+            background-position: center center;
+            will-change: transform;
         }
 
         .container {
-            max-width: 900px; margin: 0 auto; padding: 60px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 100px 20px;
+            position: relative;
+            z-index: 1; /* Ensures text is above BG */
         }
 
         .header-section { 
-            text-align: center; margin-bottom: 50px; 
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideUp 1s ease-out forwards;
+            text-align: center; margin-bottom: 60px; 
+            opacity: 0; transform: translateY(30px);
+            animation: revealUp 1s var(--snap-curve) forwards;
         }
         
         .header-section h1 {
-            font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 2.8rem); font-style: italic;
-            margin: 0; background: linear-gradient(to bottom, #fffaf0, var(--accent));
+            font-family: 'Playfair Display', serif; 
+            font-size: clamp(2.5rem, 6vw, 3.8rem); 
+            font-style: italic; font-weight: 900;
+            background: linear-gradient(to bottom, #fffaf0, var(--accent));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            line-height: 1.2;
         }
 
         .header-section p {
-            font-size: 0.75rem; letter-spacing: 4px; text-transform: uppercase;
-            color: var(--accent); margin-top: 10px; font-weight: 700;
+            font-size: 0.75rem; letter-spacing: 5px; text-transform: uppercase;
+            color: var(--accent); margin-bottom: 10px; font-weight: 700;
         }
 
-        /* --- ENHANCED ISSUE CARDS WITH ANIMATION --- */
+        /* --- CARDS WITH HOVER SCALE & GLOW --- */
         .issue-card {
             background: var(--glass);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(25px);
             border: 1px solid var(--glass-border);
-            border-radius: 32px;
-            padding: 40px;
-            margin-bottom: 40px;
+            border-radius: 40px;
+            padding: 50px 40px;
+            margin-bottom: 50px;
             opacity: 0;
-            transform: translateY(30px);
-            animation: slideUp 0.8s ease-out forwards;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
+            transform: translateY(40px);
+            animation: revealUp 1s 0.3s var(--snap-curve) forwards;
+            transition: all 0.5s var(--snap-curve);
         }
 
-        /* --- HOVER SCALE & GLOW --- */
         .issue-card:hover {
-            transform: translateY(-10px) scale(1.02); /* Added scale up */
+            transform: translateY(-12px) scale(1.02);
             border-color: var(--accent);
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2), 0 20px 40px rgba(0,0,0,0.6); /* Added golden glow */
-        }
-
-        .issue-card::before {
-            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at top right, rgba(212, 175, 55, 0.05), transparent);
-            pointer-events: none;
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.15), 0 30px 60px rgba(0,0,0,0.6);
         }
 
         .badge {
-            display: inline-block; padding: 6px 15px; border-radius: 50px;
+            display: inline-block; padding: 7px 16px; border-radius: 50px;
             font-size: 0.65rem; font-weight: 800; text-transform: uppercase;
-            letter-spacing: 1px; margin-bottom: 15px;
-            transition: var(--transition);
+            letter-spacing: 2px; margin-bottom: 20px;
         }
 
         .badge-problem { background: rgba(255, 99, 71, 0.1); color: #ff6347; border: 1px solid rgba(255, 99, 71, 0.3); }
         .badge-solution { background: rgba(144, 238, 144, 0.1); color: #90ee90; border: 1px solid rgba(144, 238, 144, 0.3); }
 
-        h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin: 10px 0; }
+        h2 { 
+            font-family: 'Playfair Display', serif; font-size: 2.2rem; 
+            margin-bottom: 25px; font-style: italic; font-weight: 900; 
+        }
         
         .content-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 30px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 35px;
         }
 
         .sub-box {
-            padding: 20px; border-radius: 20px; transition: var(--transition);
+            padding: 25px; border-radius: 25px; transition: 0.4s;
+            background: rgba(255, 255, 255, 0.03);
             border: 1px solid transparent;
         }
 
-        /* Hover logic for sub-boxes */
         .sub-box:first-child:hover { background: var(--red-tint); border-color: rgba(255, 99, 71, 0.2); }
         .sub-box:last-child:hover { background: var(--green-tint); border-color: rgba(144, 238, 144, 0.2); }
 
         .sub-box h3 {
-            font-size: 0.7rem; letter-spacing: 1.5px; text-transform: uppercase;
-            color: var(--accent); margin-bottom: 12px;
+            font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase;
+            color: var(--accent); margin-bottom: 15px; font-weight: 800;
         }
 
-        .sub-box p { font-size: 0.85rem; line-height: 1.7; color: #b5b0a3; margin: 0; transition: color 0.3s; }
-        .sub-box:hover p { color: #fffaf0; }
+        .sub-box p { font-size: 0.9rem; line-height: 1.8; color: #d1cdc3; }
 
-        @keyframes slideUp {
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes revealUp { to { opacity: 1; transform: translateY(0); } }
 
-        @media (max-width: 700px) {
-            .content-grid { grid-template-columns: 1fr; gap: 20px; }
-            .issue-card { padding: 30px 20px; }
+        @media (max-width: 750px) {
+            .content-grid { grid-template-columns: 1fr; }
+            .issue-card { padding: 35px 25px; }
         }
     </style>
 </head>
 <body>
+
+    <div class="site-bg-container">
+        <div class="site-bg" id="bg"></div>
+    </div>
 
     <div class="container">
         <div class="header-section">
@@ -136,7 +148,7 @@
             <h1>Suliranin at Solusyon</h1>
         </div>
 
-        <div class="issue-card" style="animation-delay: 0.2s;">
+        <div class="issue-card">
             <div class="badge badge-problem">Isyu Blg. 1</div>
             <h2>Krisis sa Integridad: Korapsyon</h2>
             <div class="content-grid">
@@ -146,13 +158,13 @@
                 </div>
                 <div class="sub-box">
                     <h3>Aming Solusyon</h3>
-                    <div class="badge badge-solution" style="margin-bottom: 10px;">Transparency</div>
+                    <div class="badge badge-solution" style="margin-bottom: 12px;">Transparency</div>
                     <p>Pagpapatupad ng "Open Data Policy" at digital auditing upang matiyak na bawat sentimo ay napupunta sa serbisyo-publiko.</p>
                 </div>
             </div>
         </div>
 
-        <div class="issue-card" style="animation-delay: 0.4s;">
+        <div class="issue-card" style="animation-delay: 0.5s;">
             <div class="badge badge-problem">Isyu Blg. 2</div>
             <h2>Siklo ng Kahirapan</h2>
             <div class="content-grid">
@@ -162,12 +174,21 @@
                 </div>
                 <div class="sub-box">
                     <h3>Aming Solusyon</h3>
-                    <div class="badge badge-solution" style="margin-bottom: 10px;">Empowerment</div>
+                    <div class="badge badge-solution" style="margin-bottom: 12px;">Empowerment</div>
                     <p>Pagsuporta sa MSMEs at libreng skill-training na akma sa makabagong industriya upang makabuo ng trabahong marangal para sa lahat.</p>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        // WORKING PARALLAX FROM INDEX
+        window.addEventListener('scroll', () => {
+            const bg = document.getElementById('bg');
+            const scrollY = window.pageYOffset;
+            bg.style.transform = `translateY(${scrollY * 0.12}px)`;
+        });
+    </script>
 
 </body>
 </html>
