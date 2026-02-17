@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&family=Playfair+Display:ital,wght@1,700;1,900&display=swap" rel="stylesheet">
     <style>
+        /* --- GLOBAL VARIABLES & THEME SETTINGS --- */
         :root {
-            --accent: #d4af37;
-            --bg: #0a0a08;
+            --accent: #d4af37; /* Premium Gold */
+            --bg: #0a0a08;     /* Rich Obsidian Black */
             --glass: rgba(20, 20, 18, 0.85);
             --glass-border: rgba(212, 175, 55, 0.2);
-            --snap-curve: cubic-bezier(0.19, 1, 0.22, 1);
+            --snap-curve: cubic-bezier(0.19, 1, 0.22, 1); /* Custom easing for smooth reveals */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -23,7 +24,9 @@
             overflow-x: hidden; 
         }
 
-        /* --- THE FIXED LANDSCAPE BACKGROUND --- */
+        /* --- PARALLAX BACKGROUND SYSTEM --- 
+           Fixed container that holds the oversized background image
+        */
         .site-bg-container {
             position: fixed;
             top: 0;
@@ -36,7 +39,7 @@
         }
 
         .site-bg {
-            /* 130% height provides the massive buffer you requested */
+            /* 130% height allows the image to move without showing white edges */
             position: absolute;
             top: -15%; 
             left: -5%;
@@ -47,10 +50,12 @@
                 url('https://raw.githubusercontent.com/ZombieArmor9212/g-advocacy-site/main/images/g-site-bg-1.jpg');
             background-size: cover;
             background-position: center center;
-            will-change: transform;
+            will-change: transform; /* Optimizes browser performance for scrolling */
         }
 
-        /* --- SECTIONS --- */
+        /* --- HERO SECTION --- 
+           Full viewport landing area with entrance animations
+        */
         .hero {
             height: 100vh;
             display: flex;
@@ -79,6 +84,9 @@
             animation: revealUp 1.2s 0.2s var(--snap-curve) forwards;
         }
 
+        /* --- LAYUNIN (OBJECTIVES) SECTION --- 
+           Interactive glassmorphism card that appears on scroll
+        */
         .layunin-section {
             padding: 120px 20px;
             display: flex;
@@ -99,6 +107,7 @@
             transition: all 1.2s var(--snap-curve);
         }
 
+        /* Class added via JavaScript when user reaches the section */
         .layunin-card.revealed { opacity: 1; transform: translateY(0); }
 
         .layunin-grid {
@@ -115,6 +124,7 @@
             transition: all 0.8s var(--snap-curve);
         }
 
+        /* Staggered animation for grid items */
         .layunin-card.revealed .goal-item { opacity: 1; transform: translateY(0); }
         .layunin-card.revealed .goal-item:nth-child(1) { transition-delay: 0.3s; }
         .layunin-card.revealed .goal-item:nth-child(2) { transition-delay: 0.5s; }
@@ -123,6 +133,7 @@
         .goal-item h3 { color: var(--accent); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 15px; }
         .goal-item p { font-size: 0.95rem; color: #c9c2b5; }
 
+        /* UI INDICATOR: Bouncing scroll prompt */
         .scroll-hint {
             position: absolute; bottom: 40px;
             font-size: 0.7rem; letter-spacing: 3px;
@@ -130,6 +141,7 @@
             animation: bounce 2s 1.5s infinite, fadeIn 1s 1.5s forwards;
         }
 
+        /* --- ANIMATION KEYFRAMES --- */
         @keyframes revealUp { to { opacity: 1; transform: translateY(0) scale(1); } }
         @keyframes fadeIn { to { opacity: 0.5; } }
         @keyframes bounce {
@@ -154,26 +166,29 @@
     <section class="layunin-section">
         <div class="layunin-card" id="layuninCard">
             <h2 style="font-family: 'Playfair Display', serif; font-size: 2.8rem; font-style: italic; margin-bottom: 20px;">Ang Aming Layunin</h2>
-            <p style="color: var(--accent); font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 40px;">Para sa Bagong Pilipinas</p>
+            <p style="color: var(--accent); font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 40px;">Para sa Mas Magandang Pilipinas</p>
             
             <div class="layunin-grid">
                 <div class="goal-item">
-                    <h3>Kamalayan</h3>
-                    <p>Ipaalam sa bawat Pilipino ang tunay na kalagayan ng ating bansa at ang mga ugat o sanhi ng ating mga suliranin.</p>
+                    <h3>Pag-alam</h3>
+                    <p>Tulungan ang bawat Pilipino na malaman ang totoong nangyayari sa ating bansa at bakit tayo may mga problema.</p>
                 </div>
                 <div class="goal-item">
-                    <h3>Integridad</h3>
-                    <p>Isulong ang kultura ng katapatan sa pamumuno at pananagutan sa bawat sentimo ng bayan.</p>
+                    <h3>Katapatan</h3>
+                    <p>Siguraduhin na ang mga lider ay tapat, hindi nandaraya, at ginagamit ang pera ng bayan sa tamang paraan.</p>
                 </div>
                 <div class="goal-item">
-                    <h3>Pag-asa</h3>
-                    <p>Magbigay ng konkretong plano upang wakasan o tapusan ang siklo ng kahirapan sa pamamagitan ng edukasyon at trabaho.</p>
+                    <h3>Pag-unlad</h3>
+                    <p>Gumawa ng paraan para mawala ang hirap sa buhay sa pamamagitan ng maayos na pag-aaral.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <script>
+        /* --- SCROLL REVEAL OBSERVER --- 
+           Checks if the Layunin card is in view to trigger animations
+        */
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) entry.target.classList.add('revealed');
@@ -182,22 +197,23 @@
 
         observer.observe(document.getElementById('layuninCard'));
 
-        // ADVANCED CLAMPED PARALLAX
+        /* --- ADVANCED CLAMPED PARALLAX ENGINE --- 
+           Calculates a safe movement range for the background image
+           to ensure no edges are revealed during scroll.
+        */
         window.addEventListener('scroll', () => {
             const bg = document.getElementById('bg');
             const scrollY = window.pageYOffset;
             const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
             
-            // Calculate progress (0 to 1)
+            // Normalize scroll position to a value between 0 and 1
             const scrollProgress = Math.min(scrollY / maxScroll, 1);
             
-            // Calculate movement:
-            // The image is 130% height, positioned at top: -15%.
-            // Total height overflow is 30% of viewport height.
-            // We want to shift it down by a maximum that doesn't reveal the top edge.
-            const maxMove = window.innerHeight * 0.05; 
+            // maxMove defines the travel distance of the background in pixels
+            const maxMove = window.innerHeight * 0.01; 
             const movement = scrollProgress * maxMove;
 
+            // Apply transformation for high-performance rendering
             bg.style.transform = `translateY(${movement}px)`;
         });
     </script>
