@@ -10,7 +10,6 @@
             --bg: #0a0a08;
             --glass-border: rgba(212, 175, 55, 0.2);
             --glass-dark: rgba(20, 20, 18, 0.9);
-            /* Smoother, more natural transition curve */
             --fluid-curve: cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -32,7 +31,7 @@
             z-index: -1; opacity: 0.5;
         }
 
-        /* --- NOTIFICATION POPUP --- */
+        /* --- TOAST --- */
         .toast-notification {
             position: fixed; top: 25px; right: -350px;
             width: 280px; background: var(--glass-dark);
@@ -49,7 +48,7 @@
 
         .toast-icon { background: rgba(212, 175, 55, 0.1); padding: 8px; border-radius: 10px; display: flex; }
 
-        /* --- TITLE SECTION --- */
+        /* --- TITLE --- */
         .title-section { text-align: center; margin-top: 60px; opacity: 0; animation: revealTitle 1.2s var(--fluid-curve) forwards; }
         
         h1 {
@@ -68,9 +67,8 @@
         .card {
             background: rgba(20, 20, 18, 0.7); backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border); border-radius: 28px;
-            padding: 35px 25px; width: 240px; text-align: center; cursor: pointer;
+            padding: 35px 25px; width: 280px; text-align: center; cursor: pointer;
             z-index: 1; opacity: 0; transform: translateY(30px);
-            /* Balanced Duration: 0.3s */
             transition: transform 0.4s var(--fluid-curve), 
                         box-shadow 0.4s ease, 
                         border-color 0.4s ease, 
@@ -83,7 +81,7 @@
 
         .card:hover:not(.active) { transform: translateY(-10px); border-color: var(--accent); box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
         
-        .card.active { z-index: 2000; background: #0f0f0d; border-color: var(--accent); }
+        .card.active { z-index: 2000; background: #0f0f0d; border-color: var(--accent); cursor: default; }
 
         .avatar-glow {
             width: 90px; height: 90px; background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
@@ -99,7 +97,7 @@
         }
 
         .active .hidden-info { 
-            max-height: 250px; opacity: 1; margin-top: 20px; padding-top: 20px; 
+            max-height: 400px; opacity: 1; margin-top: 20px; padding-top: 20px; 
             border-top: 1px solid rgba(212, 175, 55, 0.1); 
         }
 
@@ -107,7 +105,7 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); 
             opacity: 0; visibility: hidden; z-index: 999;
-            transition: opacity 0.4s var(--fluid-curve), visibility 0.6s;
+            transition: opacity 0.4s var(--fluid-curve), visibility 0.4s;
         }
         #overlay.show { opacity: 1; visibility: visible; }
 
@@ -121,8 +119,8 @@
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#d4af37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
         </div>
         <div class="toast-content">
-            <h4>Tip ng System</h4>
-            <p>I-click ang mga card para sa detalye.</p>
+            <h4 style="margin: 0; color: #fffaf0; font-size: 0.9rem;">Tip ng System</h4>
+            <p style="margin: 0; color: #c9c2b5; font-size: 0.75rem;">I-click ang mga card para sa detalye.</p>
         </div>
     </div>
 
@@ -139,9 +137,9 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
             </div>
             <div class="member-name">Jose Charito A. Cortez III</div>
-            <div class="member-role">Tagabuo ng Website</div>
+            <div class="member-role">Full-Stack Creator & Owner</div>
             <div class="hidden-info">
-                <p>Siya ang gumawa at nag-ayos ng website na ito. Tinitiyak niya na maayos ang lahat ng buttons at maganda ang itsura ng bawat page para sa inyo.</p>
+                <p><strong>Siya ang tanging gumawa ng kabuuan ng website na ito.</strong> Mula sa konsepto, coding ng logic, disenyo ng bawat pahina, hanggang sa pag-manage ng GitHub repository—siya ang mag-isang bumuo at nagpatakbo sa teknikal na aspeto ng proyekto. Siya ang nagsilbing "anchor" na binuhat ang lahat ng gawain upang maging matagumpay ang platform na ito.</p>
             </div>
         </div>
 
@@ -152,7 +150,7 @@
             <div class="member-name">Nichelle T. Mesiona</div>
             <div class="member-role">Tagadisenyo ng Nilalaman</div>
             <div class="hidden-info">
-                <p>Katuwang sa paghahanap ng mahahalagang info at sa pag-aayos ng visuals. Siya ang nagsisiguro na hindi lang tama ang impormasyon, kundi madali rin itong basahin.</p>
+                <p>Katuwang sa paghahanap ng mahahalagang impormasyon at sa pag-aayos ng visuals. Siya ang nagsisiguro na hindi lang tama ang impormasyon, kundi madali rin itong basahin at kaaya-aya sa mata ng mga bisita.</p>
             </div>
         </div>
 
@@ -163,14 +161,15 @@
             <div class="member-name">Gregory Kim C. Aquino</div>
             <div class="member-role">Mananaliksik</div>
             <div class="hidden-info">
-                <p>Siya ang naghahanap ng mga tamang impormasyon at datos. Siya rin ang tumutulong sa pag-iisip ng mga design para maging malinaw ang ating mensahe.</p>
+                <p>Siya ang naghahanap ng mga tamang impormasyon at datos. Siya rin ang tumutulong sa pag-iisip ng mga aspeto ng disenyo para maging malinaw at makabuluhan ang ating mensahe sa bawat Pilipino.</p>
             </div>
         </div>
     </div>
 
     <script>
+        const overlay = document.getElementById('overlay');
+
         window.addEventListener('load', () => {
-            // Cards appear with a 150ms delay stagger for a "wave" effect
             document.querySelectorAll('.card').forEach((card, i) => {
                 setTimeout(() => {
                     card.style.opacity = '1';
@@ -180,45 +179,50 @@
 
             setTimeout(() => {
                 const toast = document.getElementById('tipToast');
-                toast.classList.add('show');
-                setTimeout(() => hideToast(), 6000);
+                if(toast) {
+                    toast.classList.add('show');
+                    setTimeout(() => hideToast(), 6000);
+                }
             }, 1000);
         });
 
         function hideToast() {
-            document.getElementById('tipToast').classList.remove('show');
+            const toast = document.getElementById('tipToast');
+            if(toast) toast.classList.remove('show');
         }
 
-        const overlay = document.getElementById('overlay');
-
         function toggleCard(card) {
-            if (card.classList.contains('active')) return;
+            if (card.classList.contains('active')) {
+                closeActiveCard();
+                return;
+            }
+
+            closeActiveCard();
             hideToast();
             
             const rect = card.getBoundingClientRect();
             const centerX = window.innerWidth / 2;
             const centerY = window.innerHeight / 2;
-            
             const moveX = centerX - (rect.left + rect.width / 2);
             const moveY = centerY - (rect.top + rect.height / 2);
 
             card.classList.add('active');
             overlay.classList.add('show');
-            
-            // Subtle 1.1x scale for a more grounded feel
             card.style.transform = `translate(${moveX}px, ${moveY}px) scale(1.1)`;
             document.body.style.overflow = 'hidden';
         }
 
-        overlay.onclick = () => {
+        function closeActiveCard() {
             const activeCard = document.querySelector('.card.active');
             if (activeCard) {
                 activeCard.classList.remove('active');
-                overlay.classList.remove('show');
                 activeCard.style.transform = `translate(0, 0) scale(1)`;
-                document.body.style.overflow = 'auto';
             }
-        };
+            overlay.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        overlay.onclick = closeActiveCard;
     </script>
 </body>
 </html>
