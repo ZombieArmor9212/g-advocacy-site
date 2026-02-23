@@ -19,42 +19,35 @@
             color: #fffaf0; font-family: 'Montserrat', sans-serif;
             display: flex; flex-direction: column; align-items: center;
             min-height: 100vh; overflow-x: hidden;
+            transition: background 0.5s ease;
         }
 
         /* --- FIXED BACKGROUND SYSTEM --- */
         .site-bg-container {
-            position: fixed;
-            top: 0; left: 0;
+            position: fixed; top: 0; left: 0;
             width: 100%; height: 100vh;
-            z-index: -2;
-            overflow: hidden;
+            z-index: -2; overflow: hidden;
             background-color: var(--bg);
         }
 
         .site-bg {
-            position: absolute;
-            top: -15%; left: -5%;
+            position: absolute; top: -15%; left: -5%;
             width: 110%; height: 130%; 
             background-image: 
                 linear-gradient(rgba(10, 10, 8, 0.8), rgba(10, 10, 8, 0.95)),
                 url('https://raw.githubusercontent.com/ZombieArmor9212/g-advocacy-site/main/images/boat-sea.png');
-            background-size: cover;
-            background-position: center center;
+            background-size: cover; background-position: center center;
             will-change: transform;
         }
 
         /* --- STARTUP ANIMATIONS --- */
         .title-section { 
-            text-align: center; 
-            margin-top: 60px; 
-            opacity: 0; 
-            transform: translateY(-20px);
+            text-align: center; margin-top: 60px; 
+            opacity: 0; transform: translateY(-20px);
             animation: fadeInDown 1.35s var(--fluid-curve) forwards;
         }
 
-        @keyframes fadeInDown {
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeInDown { to { opacity: 1; transform: translateY(0); } }
 
         h1 {
             font-family: 'Playfair Display', serif; font-size: clamp(2rem, 6vw, 3.5rem);
@@ -71,52 +64,33 @@
             background: rgba(20, 20, 18, 0.7); backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border); border-radius: 28px;
             padding: 35px 25px; width: 280px; text-align: center; cursor: pointer;
-            z-index: 1; 
-            display: flex; flex-direction: column; align-items: center;
-            position: relative;
-            opacity: 0;
-            transform: translateY(40px) scale(0.9);
-            transition: transform 0.8s var(--fluid-curve), opacity 0.6s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+            z-index: 1; display: flex; flex-direction: column; align-items: center;
+            position: relative; opacity: 0; transform: translateY(40px) scale(0.9);
+            transition: transform 0.8s var(--fluid-curve), opacity 0.6s ease, border-color 0.4s ease;
         }
 
         .card.reveal { opacity: 1; transform: translateY(0) scale(1); }
         .card:hover:not(.active) { transform: translateY(-10px); border-color: var(--accent); }
 
-        /* --- PASSPORT ACTIVE STATE (650x300 Locked) --- */
         .card.active {
-            width: 650px; 
-            height: 300px; 
-            flex-direction: row; 
-            text-align: left;
-            align-items: center; /* Centered vertically for the 300px height */
-            padding: 30px 40px;
-            cursor: default;
-            z-index: 2000;
-            background: #0f0f0d;
-            border-color: var(--accent);
+            width: 650px; height: 300px; 
+            flex-direction: row; text-align: left;
+            align-items: center; padding: 30px 40px;
+            cursor: default; z-index: 2000;
+            background: #0f0f0d; border-color: var(--accent);
             box-shadow: 0 30px 60px rgba(0,0,0,0.8);
-            position: fixed;
-            top: 50%; left: 50%;
-            margin: 0;
-            opacity: 1; 
-            overflow: hidden;
+            position: fixed; top: 50%; left: 50%; margin: 0; overflow: hidden;
         }
 
         .avatar-glow {
             width: 90px; height: 90px; 
             background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
-            border-radius: 15px;
-            display: flex; align-items: center; justify-content: center;
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            transition: all 0.8s var(--fluid-curve);
+            border-radius: 15px; display: flex; align-items: center; justify-content: center;
+            border: 1px solid rgba(212, 175, 55, 0.2); transition: all 0.8s var(--fluid-curve);
             flex-shrink: 0;
         }
 
-        .active .avatar-glow {
-            width: 160px; height: 220px; 
-            margin-right: 35px;
-            border: 1px solid var(--accent);
-        }
+        .active .avatar-glow { width: 160px; height: 220px; margin-right: 35px; border: 1px solid var(--accent); }
 
         .member-info-wrapper { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
 
@@ -134,40 +108,66 @@
         .card:not(.active) .member-role::after { margin: 8px auto; width: 20%; }
 
         /* --- PASSPORT CONTENT SECTIONS --- */
-        .hidden-info { 
-            max-height: 0; overflow: hidden; opacity: 0; 
-            transition: all 0.5s ease;
-        }
-
-        .active .hidden-info { 
-            max-height: 200px; opacity: 1; margin-top: 15px;
-        }
+        .hidden-info { max-height: 0; overflow: hidden; opacity: 0; transition: all 0.5s ease; }
+        .active .hidden-info { max-height: 250px; opacity: 1; margin-top: 15px; }
 
         .passport-section { margin-bottom: 12px; }
         .passport-label { 
             font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; 
             color: var(--accent); opacity: 0.8; margin-bottom: 3px; font-weight: 800;
         }
-        .passport-text { font-size: 0.8rem; color: #d1cdc3; line-height: 1.5; }
+        .passport-text { font-size: 0.8rem; color: #d1cdc3; line-height: 1.5; position: relative; }
 
         #overlay { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: rgba(0,0,0,0.92); backdrop-filter: blur(15px); 
-            opacity: 0; visibility: hidden; z-index: 999;
-            transition: 0.5s;
+            opacity: 0; visibility: hidden; z-index: 999; transition: 0.5s;
         }
         #overlay.show { opacity: 1; visibility: visible; }
 
+        /* --- KILIG TRANSITION EFFECTS --- */
+        .kilig-text { 
+            display: none; color: #fffaf0; 
+            opacity: 0; transform: translateY(10px); 
+            transition: all 0.6s var(--fluid-curve);
+        }
+
+        .mode-kilig .kilig-text { display: inline-block; opacity: 1; transform: translateY(0); }
+        .mode-kilig .normal-text { display: none; }
+        .mode-kilig .member-name { text-shadow: 0 0 10px rgba(212, 175, 55, 0.4); }
+
+        /* --- TOGGLE SYSTEM (iOS STYLE) --- */
+        .easter-egg-container {
+            position: fixed; bottom: 20px; left: 20px;
+            display: flex; align-items: center; gap: 10px;
+            z-index: 100; opacity: 0.15; transition: opacity 0.3s;
+        }
+        .easter-egg-container:hover { opacity: 1; }
+        .toggle-label { font-size: 0.55rem; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); font-weight: 800; }
+
+        .switch { position: relative; display: inline-block; width: 34px; height: 20px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute; cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #222; transition: .4s; border-radius: 20px;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+        }
+        .slider:before {
+            position: absolute; content: "";
+            height: 14px; width: 14px; left: 2px; bottom: 2px;
+            background-color: #666; transition: .4s; border-radius: 50%;
+        }
+        input:checked + .slider { background-color: var(--accent); }
+        input:checked + .slider:before { transform: translateX(14px); background-color: white; }
+
         @media (max-width: 700px) {
-            .card.active { 
-                width: 90vw; height: auto; min-height: 400px; flex-direction: column; text-align: center; 
-                padding: 30px; align-items: center;
-            }
+            .card.active { width: 90vw; height: auto; min-height: 400px; flex-direction: column; text-align: center; padding: 30px; }
             .active .avatar-glow { margin: 0 0 20px 0; width: 130px; height: 170px; }
         }
     </style>
 </head>
-<body>
+<body class="mode-normal">
 
     <div id="overlay"></div>
 
@@ -191,11 +191,17 @@
                 <div class="hidden-info">
                     <div class="passport-section">
                         <div class="passport-label">Personal na Lathala</div>
-                        <div class="passport-text">Isang tech-wiz na laging kasama ang mga numero. Mahilig magkalikot ng PC at sumubok ng mga bagong experiment sa mundo ng coding.</div>
+                        <div class="passport-text">
+                            <span class="normal-text">Isang tech-wiz na laging kasama ang mga numero. Mahilig magkalikot ng PC at sumubok ng mga bagong experiment sa mundo ng coding upang mapaunlad ang kanyang kakayahan.</span>
+                            <span class="kilig-text" style="transition-delay: 0.1s;">Ang mastermind sa likod ng code na laging seryoso sa harap ng screen. Pero sa kabila ng mga komplikadong logic, may isang "variable" na nagpapatigil ng mundo niya. Ang bawat line ng code ay tila may kumpas ng inspirasyon mula sa taong laging nagpapakulay ng mundo niya... <b>si Bria.</b> 💻 ✨</span>
+                        </div>
                     </div>
                     <div class="passport-section">
                         <div class="passport-label">Tungkulin sa Grupo</div>
-                        <div class="passport-text">Siya ang tumatayong arkitekto ng site; bumuo ng logic, nag-ayos ng disenyo, at tagapamahala ng GitHub repository.</div>
+                        <div class="passport-text">
+                            <span class="normal-text">Siya ang tumatayong arkitekto ng site; bumuo ng logic, nag-ayos ng disenyo, at tagapamahala ng ating GitHub repository.</span>
+                            <span class="kilig-text" style="transition-delay: 0.2s;">Sinisiguro niyang matatag ang pundasyon ng site, kasing-tatag ng kanilang "mutual connection." Sabi nila coding lang ang alam niya, pero pagdating kay Bria, tila alam na alam niya ang tamang algorithm ng pag-ibig—at ang maganda pa rito, <b>the feeling is mutual!</b> ❤️ ♾️</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -211,11 +217,17 @@
                 <div class="hidden-info">
                     <div class="passport-section">
                         <div class="passport-label">Personal na Lathala</div>
-                        <div class="passport-text">TikTok queen ng grupo na laging "updated." Minsan busy mag-scroll, pero mas busy makipag-ngitian sa kanyang *special someone*. (alam niyo na 'yun, si Lewis!) ✨</div>
+                        <div class="passport-text">
+                            <span class="normal-text">Isang masugid na TikTok enthusiast na laging naka-abang sa bawat trending na sayaw. Mahilig siyang tumuklas ng mga bagong paraan para maging creative sa social media.</span>
+                            <span class="kilig-text" style="transition-delay: 0.1s;">Ang resident TikTok queen na tila hindi nababagot sa pag-scroll. Pero sa gitna ng libu-libong videos, may isang notification siyang hindi pwedeng palampasin. Ang bawat hagikhik at kilig niya sa screen ay hindi dahil sa algorithm, kundi dahil sa kanyang nag-iisang inspirasyon... <b>si Lewis!</b> ✨</span>
+                        </div>
                     </div>
                     <div class="passport-section">
                         <div class="passport-label">Tungkulin sa Grupo</div>
-                        <div class="passport-text">Nakatalaga sa paghahanap ng mga datos at pagtiyak na tama ang bawat impormasyong inilalagay sa website.</div>
+                        <div class="passport-text">
+                            <span class="normal-text">Nakatalaga sa paghahanap ng mga datos at pagtiyak na tama ang bawat impormasyong inilalagay sa website para sa ikagaganda ng proyekto.</span>
+                            <span class="kilig-text" style="transition-delay: 0.2s;">Sinisiguro niyang walang mali sa bawat detalye ng site—kasing-sigurado ng tibok ng puso niya tuwing nababanggit si you-know-who. 🤫</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -231,21 +243,45 @@
                 <div class="hidden-info">
                     <div class="passport-section">
                         <div class="passport-label">Personal na Lathala</div>
-                        <div class="passport-text">Hindi mapaghiwalay sa TikTok, ngunit mas hindi mapaghiwalay kay Miranda—ang nag-iisang inspirasyon sa bawat scroll. ❤️</div>
+                        <div class="passport-text">
+                            <span class="normal-text">Ang visual guy ng tropa na laging game humataw sa dance floor kasama ang mga kaibigang sina Kurt, Jaime, at Sergio sa bawat pagkakataon.</span>
+                            <span class="kilig-text" style="transition-delay: 0.1s;">Hataw sa dance floor kasama ang tropa, pero kahit gaano pa ka-komplikado ang steps, iisa lang ang "visual" na nakakapag-pa-miss ng beat sa puso niya. Ang bawat sining at disenyo niya ay laging may isang secret muse... <b>walang iba kundi si Miranda!</b> ❤️</span>
+                        </div>
                     </div>
                     <div class="passport-section">
                         <div class="passport-label">Tungkulin sa Grupo</div>
-                        <div class="passport-text">Siya ang pumipili ng mga tamang larawan at visual elements upang maging kaaya-aya ang itsura ng buong site.</div>
+                        <div class="passport-text">
+                            <span class="normal-text">Siya ang pumipili ng mga tamang larawan at visual elements upang maging kaaya-aya ang itsura ng buong site.</span>
+                            <span class="kilig-text" style="transition-delay: 0.2s;">Pinapaganda ang bawat pixel ng site, kasing-linis at kasing-ganda ng bawat sandaling kasama niya si you-know-who. 😉</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <div class="easter-egg-container">
+        <span class="toggle-label">Reveal</span>
+        <label class="switch">
+            <input type="checkbox" id="modeToggle" onchange="toggleBioMode()">
+            <span class="slider"></span>
+        </label>
+    </div>
+
     <script>
         const overlay = document.getElementById('overlay');
         let activeCard = null;
         let placeholder = document.createElement('div');
+
+        function toggleBioMode() {
+            const isChecked = document.getElementById('modeToggle').checked;
+            document.body.classList.toggle('mode-kilig', isChecked);
+            if (activeCard) {
+                activeCard.style.boxShadow = isChecked 
+                    ? '0 0 30px rgba(212, 175, 55, 0.4)' 
+                    : '0 30px 60px rgba(0,0,0,0.8)';
+            }
+        }
 
         window.addEventListener('scroll', () => {
             const bg = document.getElementById('bg');
@@ -263,27 +299,21 @@
 
         function toggleCard(card) {
             if (card.classList.contains('active')) return;
-
             activeCard = card;
             const first = card.getBoundingClientRect();
-
             placeholder.style.width = first.width + 'px';
             placeholder.style.height = first.height + 'px';
             card.after(placeholder);
-
             card.classList.add('active');
             overlay.classList.add('show');
             document.body.style.overflow = 'hidden';
-
             const last = card.getBoundingClientRect();
             const invertX = first.left - last.left;
             const invertY = first.top - last.top;
             const invertScaleW = first.width / last.width;
             const invertScaleH = first.height / last.height;
-
             card.style.transition = 'none'; 
             card.style.transform = `translate(${invertX}px, ${invertY}px) scale(${invertScaleW}, ${invertScaleH})`;
-
             requestAnimationFrame(() => {
                 card.style.transition = 'transform 0.8s var(--fluid-curve), background 0.4s, width 0.8s, height 0.8s, padding 0.8s';
                 card.style.transform = 'translate(-50%, -50%) scale(1, 1)';
@@ -292,24 +322,19 @@
 
         function closeActiveCard() {
             if (!activeCard) return;
-
             const card = activeCard;
             const first = card.getBoundingClientRect();
-            
             card.classList.remove('active');
             card.style.position = 'absolute';
             const last = placeholder.getBoundingClientRect();
             card.classList.add('active');
             card.style.position = '';
-
             const invertX = last.left - first.left;
             const invertY = last.top - first.top;
             const scaleW = last.width / first.width;
             const scaleH = last.height / first.height;
-
             card.style.transform = `translate(calc(-50% + ${invertX}px), calc(-50% + ${invertY}px)) scale(${scaleW}, ${scaleH})`;
             overlay.classList.remove('show');
-
             card.addEventListener('transitionend', function handler() {
                 card.classList.remove('active');
                 card.style.transform = '';
@@ -320,7 +345,6 @@
                 card.removeEventListener('transitionend', handler);
             }, { once: true });
         }
-
         overlay.onclick = closeActiveCard;
     </script>
 </body>
