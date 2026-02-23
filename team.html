@@ -55,6 +55,17 @@
             background: linear-gradient(to bottom, #fffaf0, #d4af37);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
+        
+        /* New Secret Trigger Style (Bottom Right) */
+        .secret-trigger { 
+            position: fixed; bottom: 20px; right: 20px; 
+            z-index: 1002; cursor: pointer; opacity: 0.3; 
+            transition: 0.3s; width: 30px; height: 30px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .secret-trigger:hover { opacity: 0.8; transform: scale(1.1); }
+        .secret-trigger svg { fill: var(--accent); }
+
         .title-tag { font-size: 0.7rem; letter-spacing: 5px; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; font-weight: 700; }
 
         .container { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; padding: 40px 20px; width: 100%; max-width: 1200px; }
@@ -73,7 +84,7 @@
         .card:hover:not(.active) { transform: translateY(-10px); border-color: var(--accent); }
 
         .card.active {
-            width: 650px; height: 300px; 
+            width: 650px; height: 320px; 
             flex-direction: row; text-align: left;
             align-items: center; padding: 30px 40px;
             cursor: default; z-index: 2000;
@@ -96,7 +107,7 @@
 
         .member-name { 
             font-family: 'Playfair Display', serif; font-weight: 900; font-style: italic; 
-            font-size: 1.4rem; margin: 15px 0 5px 0; color: #ffffff; 
+            font-size: 1.4rem; margin: 15px 0 10px 0; color: #ffffff; /* Adjusted Spacing */
         }
         .active .member-name { font-size: 1.8rem; margin: 0; line-height: 1.1; }
 
@@ -132,30 +143,40 @@
             transition: all 0.6s var(--fluid-curve);
         }
 
-        .mode-kilig .kilig-text { display: inline-block; opacity: 1; transform: translateY(0); }
-        .mode-kilig .normal-text { display: none; }
-        .mode-kilig .member-name { text-shadow: 0 0 10px rgba(212, 175, 55, 0.4); }
+        /* Individual Member States */
+        body.jose-k .card-jose .kilig-text,
+        body.nich-k .card-nich .kilig-text,
+        body.greg-k .card-greg .kilig-text { display: inline-block; opacity: 1; transform: translateY(0); }
 
-        /* --- TOGGLE SYSTEM (iOS STYLE) --- */
-        .easter-egg-container {
-            position: fixed; bottom: 20px; left: 20px;
-            display: flex; align-items: center; gap: 10px;
-            z-index: 100; opacity: 0.15; transition: opacity 0.3s;
+        body.jose-k .card-jose .normal-text,
+        body.nich-k .card-nich .normal-text,
+        body.greg-k .card-greg .normal-text { display: none; }
+        
+        .mode-kilig-active .member-name { text-shadow: 0 0 10px rgba(212, 175, 55, 0.4); }
+
+        /* --- HIDDEN ACCESS PANEL --- */
+        .settings-panel {
+            position: fixed; bottom: -400px; left: 20px; width: 260px;
+            background: rgba(15, 15, 12, 0.98); border: 1px solid var(--glass-border);
+            border-radius: 24px; padding: 25px; z-index: 1001; 
+            transition: 0.6s var(--fluid-curve);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
-        .easter-egg-container:hover { opacity: 1; }
-        .toggle-label { font-size: 0.55rem; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); font-weight: 800; }
+        .settings-panel.open { bottom: 20px; }
+        .panel-header { font-size: 0.65rem; color: var(--accent); margin-bottom: 15px; letter-spacing: 2px; text-transform: uppercase; font-weight: 800; border-bottom: 1px solid rgba(212,175,55,0.1); padding-bottom: 8px; }
+        
+        .switch-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .switch-name { font-size: 0.75rem; color: #fff; font-weight: 600; }
 
         .switch { position: relative; display: inline-block; width: 34px; height: 20px; }
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider {
-            position: absolute; cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
             background-color: #222; transition: .4s; border-radius: 20px;
             border: 1px solid rgba(212, 175, 55, 0.1);
         }
         .slider:before {
-            position: absolute; content: "";
-            height: 14px; width: 14px; left: 2px; bottom: 2px;
+            position: absolute; content: ""; height: 14px; width: 14px; left: 2px; bottom: 2px;
             background-color: #666; transition: .4s; border-radius: 50%;
         }
         input:checked + .slider { background-color: var(--accent); }
@@ -167,9 +188,7 @@
         }
     </style>
 </head>
-<body class="mode-normal">
-
-    <div id="overlay"></div>
+<body class="nich-k"> <div id="overlay"></div> 
 
     <div class="site-bg-container">
         <div class="site-bg" id="bg"></div>
@@ -180,8 +199,12 @@
         <h1>Mga Utak ng Proyekto</h1>
     </div>
 
+    <div class="secret-trigger" onclick="toggleSettings()">
+        <svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 15.5A3.5 3.5 0 1 1 15.5 12 3.5 3.5 0 0 1 12 15.5Z"/></svg>
+    </div>
+
     <div class="container">
-        <div class="card" onclick="toggleCard(this)">
+        <div class="card card-jose" onclick="toggleCard(this)">
             <div class="avatar-glow">
                 <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="#d4af37" stroke-width="1.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
             </div>
@@ -207,7 +230,7 @@
             </div>
         </div>
 
-        <div class="card" onclick="toggleCard(this)">
+        <div class="card card-nich" onclick="toggleCard(this)">
             <div class="avatar-glow">
                 <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="#d4af37" stroke-width="1.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
             </div>
@@ -233,7 +256,7 @@
             </div>
         </div>
 
-        <div class="card" onclick="toggleCard(this)">
+        <div class="card card-greg" onclick="toggleCard(this)">
             <div class="avatar-glow">
                 <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="#d4af37" stroke-width="1.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
             </div>
@@ -244,8 +267,8 @@
                     <div class="passport-section">
                         <div class="passport-label">Personal na Lathala</div>
                         <div class="passport-text">
-                            <span class="normal-text">Ang visual guy ng tropa na laging game humataw sa dance floor kasama ang mga kaibigang sina Kurt, Jaime, at Sergio sa bawat pagkakataon.</span>
-                            <span class="kilig-text" style="transition-delay: 0.1s;">Hataw sa dance floor kasama ang tropa, pero kahit gaano pa ka-komplikado ang steps, iisa lang ang "visual" na nakakapag-pa-miss ng beat sa puso niya. Ang bawat sining at disenyo niya ay laging may isang secret muse... <b>walang iba kundi si Miranda!</b> ❤️</span>
+                            <span class="normal-text">Ang visual guy ng tropa na laging game humataw sa dance floor. Hindi takot sa anumang hamon, mapa-coding man o ang mag-perform sa harap ng buong batch kasama ang tropa.</span>
+                            <span class="kilig-text" style="transition-delay: 0.1s;">Hataw sa batch performance at hindi umaatras sa anumang hamon, pero kahit gaano pa ka-komplikado ang steps, iisa lang ang "visual" na nakakapag-pa-miss ng beat sa puso niya... <b>si Miranda!</b> ❤️</span>
                         </div>
                     </div>
                     <div class="passport-section">
@@ -260,27 +283,36 @@
         </div>
     </div>
 
-    <div class="easter-egg-container">
-        <span class="toggle-label">Reveal</span>
-        <label class="switch">
-            <input type="checkbox" id="modeToggle" onchange="toggleBioMode()">
-            <span class="slider"></span>
-        </label>
+    <div class="settings-panel" id="settingsPanel">
+        <div class="panel-header">Core Configuration</div>
+        <div class="switch-row">
+            <span class="switch-name">Jose Secret</span>
+            <label class="switch"><input type="checkbox" checked onchange="updateMember('jose', this)"><span class="slider"></span></label>
+        </div>
+        <div class="switch-row">
+            <span class="switch-name">Nichelle Secret</span>
+            <label class="switch"><input type="checkbox" checked onchange="updateMember('nich', this)"><span class="slider"></span></label>
+        </div>
+        <div class="switch-row">
+            <span class="switch-name">Gregory Secret</span>
+            <label class="switch"><input type="checkbox" onchange="updateMember('greg', this)"><span class="slider"></span></label>
+        </div>
     </div>
 
     <script>
         const overlay = document.getElementById('overlay');
+        const settingsPanel = document.getElementById('settingsPanel');
         let activeCard = null;
         let placeholder = document.createElement('div');
 
-        function toggleBioMode() {
-            const isChecked = document.getElementById('modeToggle').checked;
-            document.body.classList.toggle('mode-kilig', isChecked);
-            if (activeCard) {
-                activeCard.style.boxShadow = isChecked 
-                    ? '0 0 30px rgba(212, 175, 55, 0.4)' 
-                    : '0 30px 60px rgba(0,0,0,0.8)';
-            }
+        // Secret Panel Toggle
+        function toggleSettings() {
+            settingsPanel.classList.toggle('open');
+        }
+
+        function updateMember(name, checkbox) {
+            if (checkbox.checked) { document.body.classList.add(name + '-k'); }
+            else { document.body.classList.remove(name + '-k'); }
         }
 
         window.addEventListener('scroll', () => {
@@ -323,29 +355,23 @@
         function closeActiveCard() {
             if (!activeCard) return;
             const card = activeCard;
-            const first = card.getBoundingClientRect();
             card.classList.remove('active');
-            card.style.position = 'absolute';
-            const last = placeholder.getBoundingClientRect();
-            card.classList.add('active');
-            card.style.position = '';
-            const invertX = last.left - first.left;
-            const invertY = last.top - first.top;
-            const scaleW = last.width / first.width;
-            const scaleH = last.height / first.height;
-            card.style.transform = `translate(calc(-50% + ${invertX}px), calc(-50% + ${invertY}px)) scale(${scaleW}, ${scaleH})`;
+            card.style.transform = '';
             overlay.classList.remove('show');
-            card.addEventListener('transitionend', function handler() {
-                card.classList.remove('active');
-                card.style.transform = '';
-                card.style.transition = 'transform 0.8s var(--fluid-curve), opacity 0.6s ease';
-                placeholder.remove();
-                document.body.style.overflow = 'auto';
-                activeCard = null;
-                card.removeEventListener('transitionend', handler);
-            }, { once: true });
+            placeholder.remove();
+            document.body.style.overflow = 'auto';
+            activeCard = null;
+            // Close settings panel too if card closes
+            settingsPanel.classList.remove('open');
         }
         overlay.onclick = closeActiveCard;
+
+        // Close panel on outside click
+        window.addEventListener('click', (e) => {
+            if (!settingsPanel.contains(e.target) && !e.target.closest('.secret-trigger')) {
+                settingsPanel.classList.remove('open');
+            }
+        });
     </script>
 </body>
 </html>
