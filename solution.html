@@ -24,7 +24,7 @@
             overflow-x: hidden;
         }
 
-        /* --- EXACT CLONE OF YOUR WORKING INDEX BG SYSTEM --- */
+        /* --- BACKGROUND SYSTEM --- */
         .site-bg-container {
             position: fixed;
             top: 0; left: 0;
@@ -51,7 +51,7 @@
             margin: 0 auto;
             padding: 100px 20px;
             position: relative;
-            z-index: 1; /* Ensures text is above BG */
+            z-index: 1;
         }
 
         .header-section { 
@@ -74,7 +74,7 @@
             color: var(--accent); margin-bottom: 10px; font-weight: 700;
         }
 
-        /* --- CARDS WITH HOVER SCALE & GLOW --- */
+        /* --- CARDS --- */
         .issue-card {
             background: var(--glass);
             backdrop-filter: blur(25px);
@@ -89,7 +89,7 @@
         }
 
         .issue-card:hover {
-            transform: translateY(-12px) scale(1.02);
+            transform: translateY(-12px) scale(1.01);
             border-color: var(--accent);
             box-shadow: 0 0 40px rgba(212, 175, 55, 0.15), 0 30px 60px rgba(0,0,0,0.6);
         }
@@ -128,6 +128,42 @@
 
         .sub-box p { font-size: 0.9rem; line-height: 1.8; color: #d1cdc3; }
 
+        /* --- VIDEO STYLES --- */
+        .video-section {
+            position: relative;
+            margin-top: 35px;
+        }
+
+        .video-wrapper {
+            width: 100%;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            background: #000;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            position: relative;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            border: none;
+        }
+
+        .video-glow {
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 90%; height: 90%;
+            background: var(--accent);
+            filter: blur(80px);
+            opacity: 0.06;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
         @keyframes revealUp { to { opacity: 1; transform: translateY(0); } }
 
         @media (max-width: 750px) {
@@ -154,12 +190,24 @@
             <div class="content-grid">
                 <div class="sub-box">
                     <h3>Epekto sa Mamamayan</h3>
-                    <p>Nanakaw ang pondo na para sana sa kalusugan at edukasyon. Nawawalan ng tiwala ang taumbayan sa gobyerno at ito ay nagiging sanhi ng pagbagal ng pag-unlad ng bansa.</p>
+                    <p>Nanakaw ang pondo para sa mga ospital at paaralan, kaya nagtitiyaga ang mga Pilipino sa kulang-kulang na serbisyo at mabagal na pag-unlad ng bansa.</p>
                 </div>
                 <div class="sub-box">
                     <h3>Aming Solusyon</h3>
-                    <div class="badge badge-solution" style="margin-bottom: 12px;">Transparency</div>
-                    <p>Pagpapatupad ng "Open Data Policy" at digital auditing upang matiyak na bawat sentimo ay napupunta sa serbisyo-publiko.</p>
+                    <div class="badge badge-solution" style="margin-bottom: 12px;">Kultura ng Integridad</div>
+                    <p>Ang pananatiling tapat sa bawat transaksyon, pagtanggi sa mga "fixer," at laging paghingi ng resibo upang maprotektahan ang pondo ng bayan.</p>
+                </div>
+            </div>
+            
+            <div class="video-section">
+                <div class="video-glow"></div>
+                <div class="video-wrapper">
+                    <iframe 
+                        src="https://www.youtube.com/embed/KCjrFmIFGOU" 
+                        title="Corruption Explainer" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
                 </div>
             </div>
         </div>
@@ -170,19 +218,30 @@
             <div class="content-grid">
                 <div class="sub-box">
                     <h3>Epekto sa Mamamayan</h3>
-                    <p>Maraming pamilya ang hindi nakakatugon sa gutom. Nagiging limitado ang pagkakataon para sa kabataan na makapagtapos at umasenso.</p>
+                    <p>Maraming pamilya ang hindi nakakatugon sa gutom. Nagiging limitado ang pagkakataon para sa kabataan na makapagtapos at umasenso sa buhay.</p>
                 </div>
                 <div class="sub-box">
                     <h3>Aming Solusyon</h3>
-                    <div class="badge badge-solution" style="margin-bottom: 12px;">Empowerment</div>
-                    <p>Pagsuporta sa MSMEs at libreng skill-training na akma sa makabagong industriya upang makabuo ng trabahong marangal para sa lahat.</p>
+                    <div class="badge badge-solution" style="margin-bottom: 12px;">Lokal na Empowerment</div>
+                    <p>Ang pagsuporta sa lokal na ekonomiya sa pamamagitan ng pagbili sa mga maliliit na negosyo at tindahan sa komunidad upang tulungang umangat ang kapwa.</p>
+                </div>
+            </div>
+
+            <div class="video-section">
+                <div class="video-glow"></div>
+                <div class="video-wrapper">
+                    <iframe 
+                        src="https://www.youtube.com/embed/0zGzhV1_9ow" 
+                        title="Poverty Explainer" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // WORKING PARALLAX FROM INDEX
         window.addEventListener('scroll', () => {
             const bg = document.getElementById('bg');
             const scrollY = window.pageYOffset;
