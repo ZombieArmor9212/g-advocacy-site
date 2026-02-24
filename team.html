@@ -96,7 +96,7 @@
             z-index: 1; display: flex; flex-direction: column; align-items: center;
             position: relative; opacity: 0; transform: translateY(40px) scale(0.9);
             transition: transform 0.8s var(--fluid-curve), opacity 0.6s ease, border-color 0.4s ease;
-            overflow: hidden; /* Important for shine containment */
+            overflow: hidden;
         }
 
         .card::after {
@@ -247,14 +247,14 @@
                         <div class="passport-label">Personal na Lathala</div>
                         <div class="passport-text">
                             <span class="normal-text">Isang tech-wiz na laging kasama ang mga numero. Mahilig magkalikot ng PC at sumubok ng mga bagong experiment sa mundo ng coding.</span>
-                            <span class="easter-text" style="transition-delay: 0.1s;">Ang mastermind na laging seryoso sa harap ng monitor. Pero kahit gaano pa karami ang logic errors, may isang person lang na "exception" sa system niya. Ang bawat tibok ng puso ay naka-code na para kay <b>Bria.</b> 💻 ✨</span>
+                            <span class="easter-text" style="transition-delay: 0.1s;">Laging nakatutok at seryoso habang nakatitig sa screen ng computer niya. Parang, siya ang tipo ng utak-isip, 'di ba? Pero kahit gaano karaming bug o pagkakamali sa lohika ang lumabas sa code niya, may isang bagay lang na hindi akma sa sistema. 'Yung tibok ng puso na nararamdaman ni Bria, alam mo na, ang eksepsiyon na sumisira sa lahat. 💻 💓 🤫</span>
                         </div>
                     </div>
                     <div class="passport-section">
                         <div class="passport-label">Tungkulin sa Grupo</div>
                         <div class="passport-text">
                             <span class="normal-text">Siya ang tumatayong arkitekto ng site; bumuo ng logic, nag-ayos ng disenyo, at tagapamahala ng ating GitHub repository.</span>
-                            <span class="easter-text" style="transition-delay: 0.2s;">Sinasiguro niyang matibay ang connection ng site, kasing-tibay ng "mutual connection" nila. Coding lang daw ang alam, pero kay Bria, kabisado ang algorithm ng pag-ibig. <b>It's mutual!</b> ❤️ ♾️</span>
+                            <span class="easter-text" style="transition-delay: 0.2s;">Sinisigurado niyang mananatiling matatag at maaasahan ang koneksyon ng website. Parang pareho lang ang koneksyon nila at malakas. Sa tingin ko, puro coding lang ang nakukuha niya, wala nang iba. Pero kay Bria, iba, parang naiintindihan niya ang buong pattern ng pag-ibig o kung ano pa man. Parang pareho lang ang nararamdaman. ✨ 🔗 ❤️</span>
                         </div>
                     </div>
                 </div>
@@ -390,7 +390,6 @@
             cards.forEach((card, index) => {
                 setTimeout(() => {
                     card.classList.add('reveal');
-                    // Add small delay for the shine sweep after the card reveals
                     setTimeout(() => card.classList.add('do-sweep'), 600);
                 }, 400 + (index * 200)); 
             });
