@@ -54,10 +54,16 @@
             z-index: 1;
         }
 
+        /* --- STARTUP ANIMATIONS --- */
+        @keyframes revealUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .header-section { 
             text-align: center; margin-bottom: 60px; 
-            opacity: 0; transform: translateY(30px);
-            animation: revealUp 1s var(--snap-curve) forwards;
+            opacity: 0;
+            animation: revealUp 1.2s var(--snap-curve) forwards;
         }
         
         .header-section h1 {
@@ -74,24 +80,26 @@
             color: var(--accent); margin-bottom: 10px; font-weight: 700;
         }
 
-        /* --- CARDS --- */
+        /* --- STAGGERED CARDS --- */
         .issue-card {
             background: var(--glass);
             backdrop-filter: blur(25px);
             border: 1px solid var(--glass-border);
             border-radius: 40px;
             padding: 50px 40px;
-            margin-bottom: 50px;
+            margin-bottom: 60px;
             opacity: 0;
-            transform: translateY(40px);
-            animation: revealUp 1s 0.3s var(--snap-curve) forwards;
-            transition: all 0.5s var(--snap-curve);
+            transition: all 0.6s var(--snap-curve);
         }
 
+        /* Logic for staggered reveal */
+        .issue-card:nth-child(2) { animation: revealUp 1s 0.3s var(--snap-curve) forwards; }
+        .issue-card:nth-child(3) { animation: revealUp 1s 0.6s var(--snap-curve) forwards; }
+
         .issue-card:hover {
-            transform: translateY(-12px) scale(1.01);
+            transform: translateY(-10px);
             border-color: var(--accent);
-            box-shadow: 0 0 40px rgba(212, 175, 55, 0.15), 0 30px 60px rgba(0,0,0,0.6);
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.1), 0 30px 60px rgba(0,0,0,0.4);
         }
 
         .badge {
@@ -110,64 +118,65 @@
         
         .content-grid {
             display: grid; grid-template-columns: 1fr 1fr; gap: 35px;
+            margin-bottom: 40px;
         }
 
         .sub-box {
             padding: 25px; border-radius: 25px; transition: 0.4s;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid transparent;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .sub-box:first-child:hover { background: var(--red-tint); border-color: rgba(255, 99, 71, 0.2); }
         .sub-box:last-child:hover { background: var(--green-tint); border-color: rgba(144, 238, 144, 0.2); }
 
         .sub-box h3 {
-            font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase;
-            color: var(--accent); margin-bottom: 15px; font-weight: 800;
+            font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;
+            color: var(--accent); margin-bottom: 12px; font-weight: 800;
         }
 
-        .sub-box p { font-size: 0.9rem; line-height: 1.8; color: #d1cdc3; }
+        .sub-box p { font-size: 0.88rem; line-height: 1.8; color: #d1cdc3; }
+
+        /* --- VIDEO DIVIDER & LABEL --- */
+        .video-divider {
+            display: flex; align-items: center; margin: 40px 0 25px 0;
+            opacity: 0;
+            animation: fadeIn 1s 1s forwards; /* Fades in after content */
+        }
+        @keyframes fadeIn { to { opacity: 1; } }
+
+        .video-divider .line {
+            flex-grow: 1; height: 1px;
+            background: linear-gradient(to right, transparent, var(--glass-border), transparent);
+        }
+        .video-label {
+            padding: 0 15px; font-size: 0.65rem; letter-spacing: 2.5px;
+            text-transform: uppercase; color: var(--accent); font-weight: 800;
+            white-space: nowrap; font-style: italic;
+        }
 
         /* --- VIDEO STYLES --- */
-        .video-section {
-            position: relative;
-            margin-top: 35px;
-        }
-
         .video-wrapper {
-            width: 100%;
-            border-radius: 24px;
-            overflow: hidden;
-            border: 1px solid var(--glass-border);
-            background: #000;
+            width: 100%; border-radius: 24px; overflow: hidden;
+            border: 1px solid var(--glass-border); background: #000;
             box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-            position: relative;
-            padding-top: 56.25%;
+            position: relative; padding-top: 56.25%;
         }
 
         .video-wrapper iframe {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            border: none;
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%; border: none;
         }
 
         .video-glow {
-            position: absolute;
-            top: 50%; left: 50%;
-            width: 90%; height: 90%;
-            background: var(--accent);
-            filter: blur(80px);
-            opacity: 0.06;
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-            z-index: -1;
+            position: absolute; top: 50%; left: 50%; width: 100%; height: 100%;
+            background: var(--accent); filter: blur(100px);
+            opacity: 0.08; transform: translate(-50%, -50%);
+            pointer-events: none; z-index: -1;
         }
 
-        @keyframes revealUp { to { opacity: 1; transform: translateY(0); } }
-
         @media (max-width: 750px) {
-            .content-grid { grid-template-columns: 1fr; }
+            .content-grid { grid-template-columns: 1fr; gap: 20px; }
             .issue-card { padding: 35px 25px; }
         }
     </style>
@@ -187,6 +196,7 @@
         <div class="issue-card">
             <div class="badge badge-problem">Isyu Blg. 1</div>
             <h2>Krisis sa Integridad: Korapsyon</h2>
+            
             <div class="content-grid">
                 <div class="sub-box">
                     <h3>Epekto sa Mamamayan</h3>
@@ -194,27 +204,29 @@
                 </div>
                 <div class="sub-box">
                     <h3>Aming Solusyon</h3>
-                    <div class="badge badge-solution" style="margin-bottom: 12px;">Kultura ng Integridad</div>
+                    <div class="badge badge-solution" style="margin-bottom: 12px; font-size: 0.55rem;">Kultura ng Integridad</div>
                     <p><b>Ang pananatiling tapat sa lahat ng transaksyon.</b> Iwasan ang pagbabayad ng "padulas" at laging humingi ng opisyal na resibo.</p>
                 </div>
+            </div>
+
+            <div class="video-divider">
+                <div class="line"></div>
+                <div class="video-label">Panoorin: Ang Biswal na Konteksto</div>
+                <div class="line"></div>
             </div>
             
             <div class="video-section">
                 <div class="video-glow"></div>
                 <div class="video-wrapper">
-                    <iframe 
-                        src="https://www.youtube.com/embed/KCjrFmIFGOU" 
-                        title="Corruption Explainer" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowfullscreen>
-                    </iframe>
+                    <iframe src="https://www.youtube.com/embed/KCjrFmIFGOU" title="Corruption Explainer" allowfullscreen></iframe>
                 </div>
             </div>
         </div>
 
-        <div class="issue-card" style="animation-delay: 0.5s;">
+        <div class="issue-card">
             <div class="badge badge-problem">Isyu Blg. 2</div>
             <h2>Siklo ng Kahirapan</h2>
+            
             <div class="content-grid">
                 <div class="sub-box">
                     <h3>Epekto sa Mamamayan</h3>
@@ -222,20 +234,21 @@
                 </div>
                 <div class="sub-box">
                     <h3>Aming Solusyon</h3>
-                    <div class="badge badge-solution" style="margin-bottom: 12px;">Lokal na Empowerment</div>
+                    <div class="badge badge-solution" style="margin-bottom: 12px; font-size: 0.55rem;">Lokal na Empowerment</div>
                     <p><b>Ang pagsuporta sa lokal na ekonomiya.</b> Bumili sa mga maliliit na tindahan at sari-sari store sa loob ng sariling komunidad.</p>
                 </div>
+            </div>
+
+            <div class="video-divider">
+                <div class="line"></div>
+                <div class="video-label">Panoorin: Ang Biswal na Konteksto</div>
+                <div class="line"></div>
             </div>
 
             <div class="video-section">
                 <div class="video-glow"></div>
                 <div class="video-wrapper">
-                    <iframe 
-                        src="https://www.youtube.com/embed/0zGzhV1_9ow" 
-                        title="Poverty Explainer" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowfullscreen>
-                    </iframe>
+                    <iframe src="https://www.youtube.com/embed/0zGzhV1_9ow" title="Poverty Explainer" allowfullscreen></iframe>
                 </div>
             </div>
         </div>
@@ -245,7 +258,7 @@
         window.addEventListener('scroll', () => {
             const bg = document.getElementById('bg');
             const scrollY = window.pageYOffset;
-            bg.style.transform = `translateY(${scrollY * 0.01}px)`;
+            bg.style.transform = `translateY(${scrollY * 0.15}px)`;
         });
     </script>
 
