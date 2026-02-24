@@ -23,7 +23,12 @@
             transition: background 0.5s ease;
         }
 
-        /* --- FIXED BACKGROUND SYSTEM --- */
+        /* --- THE GOLDEN SWEEP ANIMATION --- */
+        @keyframes sweep {
+            0% { left: -100%; }
+            100% { left: 200%; }
+        }
+
         .site-bg-container {
             position: fixed; top: 0; left: 0;
             width: 100%; height: 100vh;
@@ -41,7 +46,6 @@
             will-change: transform;
         }
 
-        /* --- STARTUP ANIMATIONS --- */
         .title-section { 
             text-align: center; margin-top: 60px; 
             opacity: 0; transform: translateY(-20px);
@@ -50,14 +54,27 @@
 
         @keyframes fadeInDown { to { opacity: 1; transform: translateY(0); } }
 
+        /* --- TITLE SHINE --- */
         h1 {
             font-family: 'Playfair Display', serif; font-size: clamp(2rem, 6vw, 3.5rem);
             font-weight: 900; font-style: italic; margin: 0;
             background: linear-gradient(to bottom, #fffaf0, #d4af37);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        h1::after {
+            content: "";
+            position: absolute; top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(212, 175, 55, 0.4), transparent);
+            transform: skewX(-25deg);
+            animation: sweep 2s ease-in-out 0.5s forwards;
+            pointer-events: none;
         }
         
-        /* Secret Trigger Style */
         .secret-trigger { 
             position: fixed; bottom: 20px; right: 20px; 
             z-index: 1002; cursor: pointer; opacity: 0.3; 
@@ -71,7 +88,7 @@
 
         .container { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; padding: 40px 20px; width: 100%; max-width: 1200px; }
 
-        /* --- CARD BASE --- */
+        /* --- CARD SHINE --- */
         .card {
             background: rgba(20, 20, 18, 0.7); backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border); border-radius: 28px;
@@ -79,6 +96,20 @@
             z-index: 1; display: flex; flex-direction: column; align-items: center;
             position: relative; opacity: 0; transform: translateY(40px) scale(0.9);
             transition: transform 0.8s var(--fluid-curve), opacity 0.6s ease, border-color 0.4s ease;
+            overflow: hidden; /* Important for shine containment */
+        }
+
+        .card::after {
+            content: "";
+            position: absolute; top: 0; left: -100%;
+            width: 60%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(212, 175, 55, 0.15), transparent);
+            transform: skewX(-25deg);
+            pointer-events: none;
+        }
+
+        .card.reveal.do-sweep::after {
+            animation: sweep 1.5s ease-in-out forwards;
         }
 
         .card.reveal { opacity: 1; transform: translateY(0) scale(1); }
@@ -91,7 +122,7 @@
             cursor: default; z-index: 2000;
             background: #0f0f0d; border-color: var(--accent);
             box-shadow: 0 30px 60px rgba(0,0,0,0.8);
-            position: fixed; top: 50%; left: 50%; margin: 0; overflow: hidden;
+            position: fixed; top: 50%; left: 50%; margin: 0;
         }
 
         .avatar-glow {
@@ -119,9 +150,7 @@
         .member-role::after { content: ""; display: block; width: 40px; height: 1px; background: var(--accent); margin: 6px 0; opacity: 0.5; }
         .card:not(.active) .member-role::after { margin: 8px auto; width: 20%; }
 
-        /* --- PASSPORT CONTENT SECTIONS --- */
         .hidden-info { max-height: 0; overflow: hidden; opacity: 0; transition: all 0.5s ease; }
-        /* Adjusted max-height to 500px to ensure long text isn't cut off */
         .active .hidden-info { max-height: 500px; opacity: 1; margin-top: 15px; }
 
         .passport-section { margin-bottom: 12px; }
@@ -138,7 +167,6 @@
         }
         #overlay.show { opacity: 1; visibility: visible; }
 
-        /* --- EASTER TRANSITION EFFECTS --- */
         .easter-text { 
             display: none; 
             color: #fffaf0; 
@@ -156,7 +184,6 @@
         body.nich-easter .card-nich .normal-text,
         body.greg-easter .card-greg .normal-text { display: none; }
 
-        /* --- HIDDEN ACCESS PANEL --- */
         .settings-panel {
             position: fixed; bottom: -450px; left: 20px; width: 260px;
             background: rgba(15, 15, 12, 0.98); border: 1px solid var(--glass-border);
@@ -191,7 +218,8 @@
         }
     </style>
 </head>
-<body> <div id="overlay"></div> 
+<body> 
+    <div id="overlay"></div> 
 
     <div class="site-bg-container">
         <div class="site-bg" id="bg"></div>
@@ -218,15 +246,15 @@
                     <div class="passport-section">
                         <div class="passport-label">Personal na Lathala</div>
                         <div class="passport-text">
-                            <span class="normal-text">Isang tech-wiz na laging kasama ang mga numero. Mahilig magkalikot ng PC at sumubok ng mga bagong experiment sa mundo ng coding upang mapaunlad ang kanyang kakayahan.</span>
-                            <span class="easter-text" style="transition-delay: 0.1s;">Ang mastermind sa likod ng code na laging seryoso sa harap ng screen. Pero sa kabila ng mga komplikadong logic, may isang "variable" na nagpapatigil ng mundo niya. Ang bawat line ng code ay tila may kumpas ng inspirasyon mula sa taong laging nagpapakulay ng mundo niya... <b>si Bria.</b> 💻 ✨</span>
+                            <span class="normal-text">Isang tech-wiz na laging kasama ang mga numero. Mahilig magkalikot ng PC at sumubok ng mga bagong experiment sa mundo ng coding.</span>
+                            <span class="easter-text" style="transition-delay: 0.1s;">Ang mastermind na laging seryoso sa harap ng monitor. Pero kahit gaano pa karami ang logic errors, may isang person lang na "exception" sa system niya. Ang bawat tibok ng puso ay naka-code na para kay <b>Bria.</b> 💻 ✨</span>
                         </div>
                     </div>
                     <div class="passport-section">
                         <div class="passport-label">Tungkulin sa Grupo</div>
                         <div class="passport-text">
                             <span class="normal-text">Siya ang tumatayong arkitekto ng site; bumuo ng logic, nag-ayos ng disenyo, at tagapamahala ng ating GitHub repository.</span>
-                            <span class="easter-text" style="transition-delay: 0.2s;">Sinisiguro niyang matatag ang pundasyon ng site, kasing-tatag ng kanilang "mutual connection." Sabi nila coding lang ang alam niya, pero pagdating kay Bria, tila alam na alam niya ang tamang algorithm ng pag-ibig—at ang maganda pa rito, <b>the feeling is mutual!</b> ❤️ ♾️</span>
+                            <span class="easter-text" style="transition-delay: 0.2s;">Sinasiguro niyang matibay ang connection ng site, kasing-tibay ng "mutual connection" nila. Coding lang daw ang alam, pero kay Bria, kabisado ang algorithm ng pag-ibig. <b>It's mutual!</b> ❤️ ♾️</span>
                         </div>
                     </div>
                 </div>
@@ -244,15 +272,15 @@
                     <div class="passport-section">
                         <div class="passport-label">Personal na Lathala</div>
                         <div class="passport-text">
-                            <span class="normal-text">Isang masugid na TikTok enthusiast na laging naka-abang sa bawat trending na sayaw. Mahilig siyang tumuklas ng mga bagong paraan para maging creative sa social media.</span>
-                            <span class="easter-text" style="transition-delay: 0.1s;">Ang resident TikTok queen na tila hindi nababagot sa pag-scroll. Pero sa gitna ng libu-libong videos, may isang notification siyang hindi pwedeng palampasin. Ang bawat hagikhik at kilig niya sa screen ay hindi dahil sa algorithm, kundi dahil sa kanyang nag-iisang inspirasyon... <b>si Lewis!</b> ✨</span>
+                            <span class="normal-text">Isang masugid na TikTok enthusiast na laging naka-abang sa trending. Mahilig siyang tumuklas ng sining sa social media.</span>
+                            <span class="easter-text" style="transition-delay: 0.1s;">Ang resident TikTok queen na tila hindi napapagod mag-scroll. Pero sa libu-libong fyp videos, iisang notification lang ang hinihintay niya. Ang bawat ngiti sa screen ay para sa kanyang ultimate inspiration... <b>si Lewis!</b> ✨</span>
                         </div>
                     </div>
                     <div class="passport-section">
                         <div class="passport-label">Tungkulin sa Grupo</div>
                         <div class="passport-text">
                             <span class="normal-text">Nakatalaga sa paghahanap ng mga datos at pagtiyak na tama ang bawat impormasyong inilalagay sa website para sa ikagaganda ng proyekto.</span>
-                            <span class="easter-text" style="transition-delay: 0.2s;">Sinisiguro niyang walang mali sa bawat detalye ng site—kasing-sigurado ng tibok ng puso niya tuwing nababanggit si you-know-who. 🤫</span>
+                            <span class="easter-text" style="transition-delay: 0.2s;">Expert sa pag-verify ng facts, pero pagdating sa puso niya, "verified" na ang kilig tuwing nababanggit si you-know-who. 🤫 💖</span>
                         </div>
                     </div>
                 </div>
@@ -270,15 +298,15 @@
                     <div class="passport-section">
                         <div class="passport-label">Personal na Lathala</div>
                         <div class="passport-text">
-                            <span class="normal-text">Ang visual guy ng tropa na laging game humataw sa dance floor. Hindi takot sa anumang hamon, mapa-coding man o ang mag-perform sa harap ng buong batch kasama ang tropa.</span>
-                            <span class="easter-text" style="transition-delay: 0.1s;">Hataw sa batch performance at hindi umaatras sa anumang hamon, pero kahit gaano pa ka-komplikado ang steps, iisa lang ang "visual" na nakakapag-pa-miss ng beat sa puso niya... <b>si Miranda!</b> ❤️</span>
+                            <span class="normal-text">Ang visual guy ng tropa na laging game humataw sa dance floor. Isang football player na puno ng enerhiya.</span>
+                            <span class="easter-text" style="transition-delay: 0.1s;">Hataw sa dance floor at sa football field, pero kahit gaano kabilis tumakbo, hindi makatakas sa tingin ni crush. Mahilig tumingin sa salamin para mag-ayos, pero ang tanging "reflection" na gusto niyang makita ay ang ngiti ni <b>Miranda.</b> ⚽ 🤳</span>
                         </div>
                     </div>
                     <div class="passport-section">
                         <div class="passport-label">Tungkulin sa Grupo</div>
                         <div class="passport-text">
                             <span class="normal-text">Siya ang pumipili ng mga tamang larawan at visual elements upang maging kaaya-aya ang itsura ng buong site.</span>
-                            <span class="easter-text" style="transition-delay: 0.2s;">Pinapaganda ang bawat pixel ng site, kasing-linis at kasing-ganda ng bawat sandaling kasama niya si you-know-who. 😉</span>
+                            <span class="easter-text" style="transition-delay: 0.2s;">Goal-oriented sa field, pero si Miranda lang ang nag-iisang "goal" ng puso niya. Sinisiguro niyang perfect ang visuals, kasing-ganda ng bawat sulyap niya kay you-know-who. 😉 ❤️</span>
                         </div>
                     </div>
                 </div>
@@ -342,7 +370,7 @@
 
         window.addEventListener('scroll', () => {
             const bg = document.getElementById('bg');
-            bg.style.transform = `translateY(${window.pageYOffset * 0.01}px)`;
+            if(bg) bg.style.transform = `translateY(${window.pageYOffset * 0.01}px)`;
         });
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -362,6 +390,8 @@
             cards.forEach((card, index) => {
                 setTimeout(() => {
                     card.classList.add('reveal');
+                    // Add small delay for the shine sweep after the card reveals
+                    setTimeout(() => card.classList.add('do-sweep'), 600);
                 }, 400 + (index * 200)); 
             });
         });
