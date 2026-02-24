@@ -85,7 +85,7 @@
         .card:hover:not(.active) { transform: translateY(-10px); border-color: var(--accent); }
 
         .card.active {
-            width: 650px; height: 320px; 
+            width: 650px; height: auto; min-height: 320px;
             flex-direction: row; text-align: left;
             align-items: center; padding: 30px 40px;
             cursor: default; z-index: 2000;
@@ -121,7 +121,8 @@
 
         /* --- PASSPORT CONTENT SECTIONS --- */
         .hidden-info { max-height: 0; overflow: hidden; opacity: 0; transition: all 0.5s ease; }
-        .active .hidden-info { max-height: 250px; opacity: 1; margin-top: 15px; }
+        /* Adjusted max-height to 500px to ensure long text isn't cut off */
+        .active .hidden-info { max-height: 500px; opacity: 1; margin-top: 15px; }
 
         .passport-section { margin-bottom: 12px; }
         .passport-label { 
@@ -147,7 +148,6 @@
             transition: all 0.6s var(--fluid-curve);
         }
 
-        /* Individual Member States (Dev-Type Identifiers) */
         body.jose-easter .card-jose .easter-text,
         body.nich-easter .card-nich .easter-text,
         body.greg-easter .card-greg .easter-text { display: inline-block; opacity: 1; transform: translateY(0); }
@@ -287,30 +287,26 @@
     </div>
 
     <div class="settings-panel" id="settingsPanel">
-        <div class="panel-header">Developer Options</div>
+        <div class="panel-header">System Status</div>
         <div class="switch-row">
-            <span class="switch-name">Detailed Logs (JCAC)</span>
+            <span class="switch-name">CORE_ID: JCAC</span>
             <label class="switch"><input type="checkbox" id="sw-jose" onchange="updateMember('jose', this.checked)"><span class="slider"></span></label>
         </div>
         <div class="switch-row">
-            <span class="switch-name">Detailed Logs (NM)</span>
+            <span class="switch-name">CORE_ID: NTM</span>
             <label class="switch"><input type="checkbox" id="sw-nich" onchange="updateMember('nich', this.checked)"><span class="slider"></span></label>
         </div>
         <div class="switch-row">
-            <span class="switch-name">Detailed Logs (GKA)</span>
+            <span class="switch-name">CORE_ID: GKCA</span>
             <label class="switch"><input type="checkbox" id="sw-greg" onchange="updateMember('greg', this.checked)"><span class="slider"></span></label>
         </div>
         <div class="switch-row master-row">
-            <span class="switch-name" style="color: var(--accent);">Sync All</span>
+            <span class="switch-name" style="color: var(--accent);">SYNC_GLOBAL</span>
             <label class="switch"><input type="checkbox" id="sw-master" onchange="toggleMaster(this.checked)"><span class="slider"></span></label>
         </div>
     </div>
 
     <script>
-        /* ==========================================
-           1. EASY CONFIG MANAGEMENT
-           Change these to true/false to set defaults
-           ========================================== */
         const APP_CONFIG = {
             joseDefault: false,
             nichDefault: false,
@@ -327,7 +323,6 @@
             settingsPanel.classList.toggle('open');
         }
 
-        // Logic for individual members
         function updateMember(name, isChecked) {
             if (isChecked) { 
                 document.body.classList.add(name + '-easter'); 
@@ -337,7 +332,6 @@
             }
         }
 
-        // FULL MODE OVERRIDE logic
         function toggleMaster(isFullMode) {
             ['jose', 'nich', 'greg'].forEach(m => {
                 document.getElementById('sw-' + m).checked = isFullMode;
@@ -352,7 +346,6 @@
         });
 
         window.addEventListener('DOMContentLoaded', () => {
-            // Apply Config Defaults
             document.getElementById('sw-jose').checked = APP_CONFIG.joseDefault;
             document.getElementById('sw-nich').checked = APP_CONFIG.nichDefault;
             document.getElementById('sw-greg').checked = APP_CONFIG.gregDefault;
